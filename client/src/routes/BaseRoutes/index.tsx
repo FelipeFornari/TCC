@@ -3,9 +3,9 @@ import { AuthenticatedRoutes } from "../AuthenticatedRoutes";
 import {LoginPage} from "../../pages/LoginPage";
 import {MapListPage} from "../../pages/LocalList";
 import {MapFormPage} from "../../pages/LocalForm";
-import {FunctionalitiesFormPage} from "../../pages/ModalitiesForm";
+import {FunctionalitiesFormPage} from "../../pages/FunctionalitiesForm";
 import {RegisterPage} from "../../pages/RegisterPage";
-import {FunctionalitiesListPage} from "../../pages/ModalitiesList";
+import {FunctionalitiesListPage} from "../../pages/FunctionalitiesList";
 import {CitiesListPage} from "../../pages/CitiesList/indesx.tsx";
 import {EntrustedFormPage} from "../../pages/EntrustedForm";
 import {EntrustedListPage} from "../../pages/EntrustedList";
@@ -20,12 +20,14 @@ export function BaseRoutes() {
         <Routes>
             {/* Public Routes */}
 
-            <Route path="/" element={<MapDisplayPage />} />
+
 
             <Route path="/login" element={<LoginPage />} />
 
             {/* Protected Routes */}
             <Route element={<AuthenticatedRoutes />}>
+
+                <Route path="/" element={<MapDisplayPage />} />
 
                 <Route path="/cadastro" element={<RegisterPage />} />
 

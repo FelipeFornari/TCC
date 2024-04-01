@@ -64,7 +64,7 @@ export function EntrustedFormPage () {
 
         entrustedService.save(entrusted)
             .then(() => {
-                navigate("/cadastro");
+                navigate("/cadastro/responsaveis/list");
             })
             .catch(() => {
                 setApiError("Falha ao salvar o responsável.");

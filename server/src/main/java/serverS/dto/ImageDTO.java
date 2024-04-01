@@ -15,9 +15,9 @@ public class ImageDTO {
 
     private Local locals;
 
-    //private String imageName;
+    private String imageName;
 
-    private byte[] imageFile;
-
-    private String imageFileName;
+//    private byte[] imageFile;
+//
+//    private String imageFileName;
 }

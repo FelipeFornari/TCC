@@ -1,8 +1,8 @@
-import {IModality} from "../../commons/interfaces.ts";
+import {IFunctionality} from "../../commons/interfaces.ts";
 import {useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import FunctionalitiesService from "../../services/ModalityService.ts";
+import FunctionalitiesService from "../../services/FunctionalityService.ts";
 import {Button, FormControl, FormErrorMessage, FormLabel, Textarea} from "@chakra-ui/react";
 
 export function FunctionalitiesFormPage () {
@@ -11,11 +11,11 @@ export function FunctionalitiesFormPage () {
         register,
         formState: { errors, isSubmitting },
         reset,
-    } = useForm<IModality>();
+    } = useForm<IFunctionality>();
     const [apiError, setApiError] = useState("");
     const navigate = useNavigate();
     const { id } = useParams();
-    const [entity, setEntity] = useState<IModality>({
+    const [entity, setEntity] = useState<IFunctionality>({
         id: undefined,
         description: "",
     });
@@ -54,15 +54,15 @@ export function FunctionalitiesFormPage () {
         }
     };
 
-    const onSubmit = (data: IModality) => {
-        const product: IModality = {
+    const onSubmit = (data: IFunctionality) => {
+        const product: IFunctionality = {
             ...data,
             id: entity.id,
         };
 
         FunctionalitiesService.save(product)
             .then(() => {
-                navigate("/cadastro");
+                navigate("/cadastro/funcionalidades/list");
             })
             .catch(() => {
                 setApiError("Falha ao salvar a funcionalidade.");

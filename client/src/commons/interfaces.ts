@@ -43,17 +43,17 @@ export interface ILocal {
     city: ICities;
     coordinate: Point;
     description: string;
-    image: Array<IImage>;
+    //image: Array<IImage>;
 }
 
-export interface IModality {
+export interface IFunctionality {
     id?: number;
     description: string;
 }
 
 export interface IUse {
     id?: number;
-    modality: IModality;
+    modality: IFunctionality;
     local: ILocal;
     openingTime: string;
     closingTime: string;

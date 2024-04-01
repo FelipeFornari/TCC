@@ -46,11 +46,11 @@ public class Local {
 
     private String description;
 
-    @Column
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "locals",
-            fetch= FetchType.LAZY)
-    //@JoinColumn(name="image_id")
-    public List<Image> image;
+//    @Column
+//    @OneToMany(cascade = CascadeType.ALL,
+//            mappedBy = "locals",
+//            fetch= FetchType.LAZY)
+//    //@JoinColumn(name="image_id")
+//    public List<Image> image;
 
 }

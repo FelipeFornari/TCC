@@ -1,16 +1,19 @@
-package serverS.dto;
+package serverS.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "tb_funcionalities")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ModalityDTO {
+@NoArgsConstructor
+public class Functionality {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

@@ -1,5 +1,5 @@
 import {api} from "../lib/axios.ts";
-import {IEntrusted, IModality} from "../commons/interfaces.ts";
+import {IEntrusted, IFunctionality} from "../commons/interfaces.ts";
 
 const findAll = () => {
     return api.get('/entrusteds');
@@ -9,7 +9,7 @@ const save = (entrusted: IEntrusted) => {
     return api.post('/entrusteds', entrusted);
 }
 
-const update = (entrusted: IModality) => {
+const update = (entrusted: IFunctionality) => {
     return api.post(`/entrusteds/${entrusted.id}`, entrusted);
 }
 

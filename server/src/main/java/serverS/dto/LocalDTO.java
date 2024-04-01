@@ -43,5 +43,5 @@ public class LocalDTO {
 
     private String description;
 
-    public List<Image> image;
+    //public List<Image> image;
 }

@@ -65,7 +65,7 @@ export function CityFormPage () {
         console.log(city.uF)
         citiesService.save(city)
             .then(() => {
-                navigate("/cadastro");
+                navigate("/cadastro/cidades/list");
             })
             .catch(() => {
                 setApiError("Falha ao salvar a cidade.");

@@ -5,13 +5,13 @@ const findAll = () => {
     return api.get('/locals');
 }
 
-// const save = (local: ILocal) => {
-//     return api.post('/locals', local);
-// }
+const save = (local: ILocal) => {
+    return api.post('/locals', local);
+}
 
-const save = (formData: FormData) => {
-    return api.post("/locals/upload-db", formData);
-};
+// const save = (formData: FormData) => {
+//     return api.post("/locals/upload-db", formData);
+// };
 
 const update = (local: ILocal) => {
     return api.post(`/locals/${local.id}`, local);

@@ -18,7 +18,7 @@ public class Use {
     private Long id;
 
     @ManyToOne
-    private Modality modality;
+    private Functionality functionality;
 
     private String openingTime;
 

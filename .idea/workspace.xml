@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6aaa067-213e-4d29-b084-ab4526d7124e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/commons/interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/commons/interfaces.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/LocalForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LocalForm/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/services/LocalService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/LocalService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/serverS/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/serverS/controller/ImageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/serverS/dto/ImageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/serverS/dto/ImageDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/serverS/dto/LocalDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/serverS/dto/LocalDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/serverS/model/Local.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/serverS/model/Local.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,16 +36,20 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2dWSW3gxMdDbkiv97Mq3pZJxqnA" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/borto/Documents/Felipe/TCC/client/node_modules",
+    "last_opened_file_path": "C:/Users/borto/Documents/Felipe/TCC/client",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -66,11 +78,14 @@
       <option name="presentableId" value="Default" />
       <updated>1710122369480</updated>
       <workItem from="1710122370490" duration="15014000" />
-      <workItem from="1711934585182" duration="798000" />
+      <workItem from="1711934585182" duration="2398000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

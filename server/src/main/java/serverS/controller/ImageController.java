@@ -2,10 +2,8 @@ package serverS.controller;
 
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import serverS.dto.ImageDTO;
 import serverS.model.Image;
@@ -45,10 +43,8 @@ public class ImageController extends CrudController<Image, ImageDTO, Long> {
     }
 
     @PostMapping("download-fs") //está correto?
-    public Image download(@RequestPart("image") @Valid Image image,
-                          @RequestPart("images") Long id ){
+    public void download(Long id ){
         imageService.getImage(id);
-        return image;
     }
 
 //    @PostMapping("upload-db")

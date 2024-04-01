@@ -16,13 +16,13 @@ import {
 } from "@chakra-ui/react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import {ILocal, ICities, IImage} from "../../commons/interfaces.ts";
+import {ILocal, ICities} from "../../commons/interfaces.ts";
 import localService from "../../services/LocalService.ts";
 import {Point} from "ol/geom";
 import Modal from "../../components/Modal/modal.jsx";
 import TitleCord from "../../components/TitleCord/titleCord.jsx";
 import citiesService from "../../services/CitiesService.ts";
-import imageService from "../../services/ImageService.ts";
+//import imageService from "../../services/ImageService.ts";
 
 export function MapFormPage () {
 
@@ -54,7 +54,7 @@ export function MapFormPage () {
         name: "",
         number: "",
         street: "",
-        image:[],
+        //image:[],
     });
     const [openModal, setOpenModal] = useState(false)
 
@@ -86,7 +86,7 @@ export function MapFormPage () {
                             name: response.data.name,
                             number: response.data.number,
                             street: response.data.street,
-                            image: [],//como carregar informações de um array??
+                            // image: [],//como carregar informações de um array??
                         });
                         setApiError("");
                     } else {
@@ -137,18 +137,18 @@ export function MapFormPage () {
                 setApiError("Falha ao salvar o local.");
             });
 
-        const image: IImage = {
-            ...data,
-            id: entity.id,
-        };
-
-        imageService.save(image)
-            .then(() => {
-                navigate("/cadastro/locais/list");
-            })
-            .catch(() => {
-                setApiError("Falha ao salvar a imagem.");
-            });
+        // const image: IImage = {
+        //     ...data,
+        //     id: entity.id,
+        // };
+        //
+        // imageService.save(image)
+        //     .then(() => {
+        //         navigate("/cadastro/locais/list");
+        //     })
+        //     .catch(() => {
+        //         setApiError("Falha ao salvar a imagem.");
+        //     });
     };
 
     return (
@@ -285,27 +285,27 @@ export function MapFormPage () {
                         </FormErrorMessage>
                     </FormControl>
 
-                    <FormControl isInvalid={errors.image && true}>
-                        <FormLabel htmlFor="image">
-                            Imagem</FormLabel>
-                        <Input type="file"
-                               id={"image"}
-                               {...register("image",{})}/>
-                        <FormErrorMessage>
-                            {errors.image? && errors.image?.message}
-                        </FormErrorMessage>
-                    </FormControl>
+                    {/*<FormControl isInvalid={errors.image && true}>*/}
+                    {/*    <FormLabel htmlFor="image">*/}
+                    {/*        Imagem</FormLabel>*/}
+                    {/*    <Input type="file"*/}
+                    {/*           id={"image"}*/}
+                    {/*           {...register("image",{})}/>*/}
+                    {/*    <FormErrorMessage>*/}
+                    {/*        {errors.image? && errors.image?.message}*/}
+                    {/*    </FormErrorMessage>*/}
+                    {/*</FormControl>*/}
 
-                    <FormControl isInvalid={errors.image && true}>
-                        <FormLabel htmlFor="image">
-                            Imagem</FormLabel>
-                        <Input type="file"
-                               id={"image"}
-                               {...register("image",{})}/>
-                        <FormErrorMessage>
-                            {errors.image? && errors.image?.message}
-                        </FormErrorMessage>
-                    </FormControl>
+                    {/*<FormControl isInvalid={errors.image && true}>*/}
+                    {/*    <FormLabel htmlFor="image">*/}
+                    {/*        Imagem</FormLabel>*/}
+                    {/*    <Input type="file"*/}
+                    {/*           id={"image"}*/}
+                    {/*           {...register("image",{})}/>*/}
+                    {/*    <FormErrorMessage>*/}
+                    {/*        {errors.image? && errors.image?.message}*/}
+                    {/*    </FormErrorMessage>*/}
+                    {/*</FormControl>*/}
 
                     {/*como salvar mais de uma imagem em um mesmo array?*/}
 

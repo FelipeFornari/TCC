@@ -21,7 +21,7 @@ public class UseDTO {
     private Long id;
 
     @ManyToOne
-    private ModalityDTO functionalitiesId;
+    private FunctionalityDTO functionalitiesId;
 
     private Time openingTime;
 

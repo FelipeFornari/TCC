@@ -21,11 +21,11 @@ import {
     MenuList,
     MenuItem,
 } from "@chakra-ui/react";
-import {IModality} from "../../commons/interfaces.ts";
-import FunctionalitiesService from "../../services/ModalityService.ts";
+import {IFunctionality} from "../../commons/interfaces.ts";
+import FunctionalitiesService from "../../services/FunctionalityService.ts";
 
 export function FunctionalitiesListPage() {
-    const [data, setData] = useState<IModality[]>([]);
+    const [data, setData] = useState<IFunctionality[]>([]);
     const [apiError, setApiError] = useState("");
     const [showDeleteMessage, setShowDeleteMessage] = useState(false);
     const navigate = useNavigate();
@@ -88,7 +88,7 @@ export function FunctionalitiesListPage() {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {data.map((func: IModality) => (
+                            {data.map((func: IFunctionality) => (
                                 <Tr
                                     key={func.id}
                                     _hover={{ cursor: "pointer", background: "#eee" }}

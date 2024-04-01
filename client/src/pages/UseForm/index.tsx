@@ -1,4 +1,4 @@
-import {IConvenience, IEntrusted, ILocal, IModality, IUse} from "../../commons/interfaces.ts";
+import {IConvenience, IEntrusted, ILocal, IFunctionality, IUse} from "../../commons/interfaces.ts";
 import {useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
@@ -9,7 +9,7 @@ import {useGeographic} from "ol/proj";
 import EntrustedService from "../../services/EntrustedService.ts";
 import LocalService from "../../services/LocalService.ts";
 import ConvenienceService from "../../services/ConvenienceService.ts";
-import ModalityService from "../../services/ModalityService.ts";
+import ModalityService from "../../services/FunctionalityService.ts";
 
 export function UseFormPage () {
     const {
@@ -25,7 +25,7 @@ export function UseFormPage () {
     const [entrusteds, setEntrusteds] = useState<IEntrusted[]>([]);
     const [conveniences, setConveniences] = useState<IConvenience[]>([]);
     const [locals, setLocals] = useState<ILocal[]>([]);
-    const [modalities, setModalities] = useState<IModality[]>([]);
+    const [modalities, setModalities] = useState<IFunctionality[]>([]);
     useGeographic();
 
     const [entity, setEntity] = useState<IUse>({
