@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6aaa067-213e-4d29-b084-ab4526d7124e" name="Changes" comment="" />
+    <list default="true" id="f6aaa067-213e-4d29-b084-ab4526d7124e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/client/src/pages/LocalForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LocalForm/index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/client/src/services/UsageService.ts" root0="SKIP_HIGHLIGHTING" />
@@ -19,9 +24,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2dWSW3gxMdDbkiv97Mq3pZJxqnA" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -31,6 +36,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/borto/Documents/Felipe/TCC/client/node_modules",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -60,6 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1710122369480</updated>
       <workItem from="1710122370490" duration="15014000" />
+      <workItem from="1711934585182" duration="798000" />
     </task>
     <servers />
   </component>

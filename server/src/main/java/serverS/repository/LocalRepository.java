@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface LocalRepository extends JpaRepository<Local, Long> {
 
-    List<Local> findAllByName(String name);
+    List<Local> findByName(String name);
 }

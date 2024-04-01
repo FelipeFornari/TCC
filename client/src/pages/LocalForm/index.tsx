@@ -35,9 +35,9 @@ export function MapFormPage () {
     } = useForm<ILocal>();
     const [zoom] = useState(13);
     const cord = new Point([-52.67188958131138, -26.227052900970108]);
-    //const [coordinates, setCoordinates] = useState([-52.6716, -26.2295])
     const [apiError, setApiError] = useState("");
     const [cities, setCities] = useState<ICities[]>([]);
+    //const [images, setImages] = useState<IImage>([]);
     const navigate = useNavigate();
     const { id } = useParams();
     const [entity, setEntity] = useState<ILocal>({
@@ -67,6 +67,7 @@ export function MapFormPage () {
                 setApiError("Falha ao carregar a combo de cidades.");
             });
 
+
         if (id) {
             localService.findById(parseInt(id))
                 .then((response) => {
@@ -85,15 +86,15 @@ export function MapFormPage () {
                             name: response.data.name,
                             number: response.data.number,
                             street: response.data.street,
-                            image: [],
+                            image: [],//como carregar informações de um array??
                         });
                         setApiError("");
                     } else {
-                        setApiError("Falha ao carregar o utilização");
+                        setApiError("Falha ao carregar o local");
                     }
                 })
                 .catch(() => {
-                    setApiError("Falha ao carregar o utilização");
+                    setApiError("Falha ao carregar o local");
                 });
         } else {
             setEntity((previousEntity) => {
@@ -283,62 +284,31 @@ export function MapFormPage () {
                             {errors?.description && errors.description.message}
                         </FormErrorMessage>
                     </FormControl>
-                    
+
                     <FormControl isInvalid={errors.image && true}>
-                        <FormLabel htmlFor="imageName">
+                        <FormLabel htmlFor="image">
                             Imagem</FormLabel>
                         <Input type="file"
-                               id={"imageName"}
-                               {...register("imageName",{})}/>
+                               id={"image"}
+                               {...register("image",{})}/>
                         <FormErrorMessage>
-                            {errors.imageName && errors.imageName.message}
+                            {errors.image? && errors.image?.message}
                         </FormErrorMessage>
                     </FormControl>
 
-                    {/*<FormControl isInvalid={errors.image && true}>*/}
-                    {/*    <FormLabel htmlFor="image">*/}
-                    {/*        Imagem</FormLabel>*/}
-                    {/*    <Input type="file"*/}
-                    {/*           id={"image"}*/}
-                    {/*           {...register("image",{})}/>*/}
-                    {/*    <FormErrorMessage>*/}
-                    {/*        {errors.image && errors.image.message}*/}
-                    {/*    </FormErrorMessage>*/}
-                    {/*</FormControl>*/}
+                    <FormControl isInvalid={errors.image && true}>
+                        <FormLabel htmlFor="image">
+                            Imagem</FormLabel>
+                        <Input type="file"
+                               id={"image"}
+                               {...register("image",{})}/>
+                        <FormErrorMessage>
+                            {errors.image? && errors.image?.message}
+                        </FormErrorMessage>
+                    </FormControl>
 
-                    {/*<FormControl isInvalid={errors.image && true}>*/}
-                    {/*    <FormLabel htmlFor="image">*/}
-                    {/*        Imagem</FormLabel>*/}
-                    {/*    <Input type="file"*/}
-                    {/*           id={"image"}*/}
-                    {/*           {...register("image",{})}/>*/}
-                    {/*    <FormErrorMessage>*/}
-                    {/*        {errors.image && errors.image.message}*/}
-                    {/*    </FormErrorMessage>*/}
-                    {/*</FormControl>*/}
+                    {/*como salvar mais de uma imagem em um mesmo array?*/}
 
-                    {/*<FormControl isInvalid={errors.image && true}>*/}
-                    {/*    <FormLabel htmlFor="image">*/}
-                    {/*        Imagem</FormLabel>*/}
-                    {/*    <Input type="file"*/}
-                    {/*           id={"image"}*/}
-                    {/*           {...register("image",{})}/>*/}
-                    {/*    <FormErrorMessage>*/}
-                    {/*        {errors.image && errors.image.message}*/}
-                    {/*    </FormErrorMessage>*/}
-                    {/*</FormControl>*/}
-
-                    {/*<FormControl isInvalid={errors.image && true}>*/}
-                    {/*    <FormLabel htmlFor="image">*/}
-                    {/*        Planta Baixa</FormLabel>*/}
-                    {/*    <Input type="file"*/}
-                    {/*           id={"image"}*/}
-                    {/*           {...register("image",{})}/>*/}
-                    {/*    <FormErrorMessage>*/}
-                    {/*        {errors.image && errors.image.message}*/}
-                    {/*    </FormErrorMessage>*/}
-                    {/*</FormControl>*/}
-                    
                     <div className="text-center">
                         <Button
                             mt={4}

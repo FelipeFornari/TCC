@@ -38,8 +38,8 @@ public class LocalServiceImpl extends CrudServiceImpl<Local, Long>
     }
 
     @Override
-    public List<Local> findAllByName(String name) {
-        return localRepository.findAllByName(name);
+    public List<Local> findByName(String name) {
+        return localRepository.findByName(name);
     }
 
 }

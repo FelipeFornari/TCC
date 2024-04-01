@@ -11,5 +11,5 @@ public interface IImageService extends ICrudService<Image, Long> {
     //void saveImageFile(MultipartFile file, Image image);
 
     String getImage(Long id);
-
+//retornar uma lista de imagens
 }

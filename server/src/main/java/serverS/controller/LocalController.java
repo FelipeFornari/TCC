@@ -34,8 +34,8 @@ public class LocalController extends CrudController<Local, LocalDTO, Long> {
     }
 
     @GetMapping("name")
-    public ResponseEntity<List<Local>> findAllByName(@RequestParam String name) {
-        return ResponseEntity.ok(localService.findAllByName(name));
+    public ResponseEntity<List<Local>> findByName(@RequestParam String name) {
+        return ResponseEntity.ok(localService.findByName(name));
     }
 
 

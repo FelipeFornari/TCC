@@ -44,6 +44,13 @@ public class ImageController extends CrudController<Image, ImageDTO, Long> {
         return image;
     }
 
+    @PostMapping("download-fs") //está correto?
+    public Image download(@RequestPart("image") @Valid Image image,
+                          @RequestPart("images") Long id ){
+        imageService.getImage(id);
+        return image;
+    }
+
 //    @PostMapping("upload-db")
 //    public Image saveImageFile(@RequestPart("image") @Valid Image image,
 //                                 @RequestPart("image") MultipartFile file) {
