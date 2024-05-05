@@ -105,7 +105,6 @@ export function ResultsPage () {
     };
 
     const loadService = (id: number) => {
-        console.log(id);
         useService.findAllByLocalId(id)
             .then((response) => {
                 setDataUse(response.data);
@@ -131,8 +130,9 @@ export function ResultsPage () {
                             <Carousel.Item>
                                 <Image
                                     key={image.id}
-                                    style={{width: "650", height: "400"}}
+                                    style={{width: 710, height: 550}}
                                     src={`data:image;base64,${image.image}`}
+                                    fluid
                                 />
                                 <Carousel.Caption>
                                     {/*<h3>First slide label</h3>*/}
@@ -151,9 +151,10 @@ export function ResultsPage () {
                         fill
                     >
                         {dataUse.map((use: IUse) => (
-                            <Tab eventKey={use.functionality.description} title={use.functionality.description}>
+                            <Tab eventKey={use.functionality.description}
+                                 title={use.functionality.description}
+                            >
                                 <TabContent key={use.id}>
-
                                     <p>{use.termsOfUse}</p>
                                 </TabContent>
                             </Tab>

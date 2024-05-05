@@ -61,8 +61,6 @@ export function CityFormPage () {
             ...data,
             id: entity.id,
         };
-        console.log(city.city)
-        console.log(city.uf)
         citiesService.save(city)
             .then(() => {
                 navigate("/cadastro/cidades/list");

@@ -5,6 +5,7 @@ import serverS.dto.ImageDTO;
 import serverS.model.Image;
 import serverS.model.Local;
 
+import java.io.File;
 import java.util.List;
 
 public interface IImageService extends ICrudService<Image, Long> {
@@ -21,5 +22,6 @@ public interface IImageService extends ICrudService<Image, Long> {
     void saveImagesTest(MultipartFile images, Local local);
 
     List<ImageDTO> getImageList(Long id);
-//retornar uma lista de imagens
+
+//    void removerArquivos(File f);
 }

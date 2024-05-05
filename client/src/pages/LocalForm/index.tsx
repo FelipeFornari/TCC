@@ -182,7 +182,10 @@ export function MapFormPage() {
 
     const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false)
+        window. location. reload();
+    };
     const handleShow = () => setShow(true);
 
     return (
@@ -192,7 +195,6 @@ export function MapFormPage() {
                      const pt = new Point(ev.coordinate);
                      console.log("ev.coord" + ev.coordinate);
                      setcrd(pt);
-                     //setOpenModal(true);
                      handleShow();
                  })}
             >

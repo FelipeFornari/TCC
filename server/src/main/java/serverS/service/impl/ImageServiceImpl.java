@@ -62,23 +62,6 @@ public class ImageServiceImpl extends CrudServiceImpl<Image, Long>
         }
     }
 
-    /* Armazena o arquivo no Banco de Dados
-     */
-//    @Override
-//    public void saveImageFile(MultipartFile file, Image image) {
-//        try {
-//            String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(
-//                    file.getOriginalFilename().lastIndexOf(".")
-//            );
-//            image.setImageFileName(image.getId() + suffix);
-//            image.setImageFile(file.getBytes());
-//            this.save(image);
-//        } catch (Exception e) {
-//            log.error("Error in saveImageFile() - " + e.getMessage());
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     @Override
     public String getImage(Long id) {
         try {
@@ -168,5 +151,14 @@ public class ImageServiceImpl extends CrudServiceImpl<Image, Long>
             return "";
         }
     }
+
+//    public void removerArquivos(File f) {
+//        if (f.isDirectory()) {
+//            File[] files = f.listFiles();
+//            for (File file : files) {
+//                file.delete();
+//            }
+//        }
+//    }
 
 }

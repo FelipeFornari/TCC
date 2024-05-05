@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import serverS.dto.ImageDTO;
 import serverS.dto.ImageLocalDto;
+import serverS.model.City;
 import serverS.model.Image;
 import serverS.service.ICrudService;
 import serverS.service.IImageService;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -45,10 +47,13 @@ public class ImageController extends CrudController<Image, ImageDTO, Long> {
         return image;
     }
 
-
     @GetMapping("list/{id}")
     public List<ImageDTO> getImageListFromLocal(@PathVariable Long id ){
         return imageService.getImageList(id);
     }
 
+//    @PostMapping("del")
+//    public void remover(@RequestPart File f){
+//        imageService.removerArquivos(f);
+//    }
 }

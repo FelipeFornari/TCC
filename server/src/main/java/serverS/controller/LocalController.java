@@ -14,6 +14,7 @@ import serverS.service.ICrudService;
 import serverS.service.IImageService;
 import serverS.service.ILocalService;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -63,5 +64,10 @@ public class LocalController extends CrudController<Local, LocalDTO, Long> {
         imageService.saveImages(images, local);
         return local;
     }
+
+//    @PostMapping("del")
+//    public void removerArquivos( @RequestPart("images") File images) {
+//        imageService.removerArquivos(images);
+//    }
 
 }

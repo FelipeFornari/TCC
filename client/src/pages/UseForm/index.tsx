@@ -20,6 +20,19 @@ import ConvenienceService from "../../services/ConvenienceService.ts";
 import FunctionalityService from "../../services/FunctionalityService.ts";
 import citiesService from "../../services/CitiesService.ts";
 
+//-----------------------------------------
+// const ITEM_HEIGHT = 48;
+// const ITEM_PADDING_TOP = 8;
+// const MenuProps = {
+//     PaperProps: {
+//         style: {
+//             maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//             width: 250,
+//         },
+//     },
+// };
+//----------------------------------------
+
 export function UseFormPage() {
     const {
         handleSubmit,
@@ -234,6 +247,13 @@ export function UseFormPage() {
             });
     };
 
+    //-------------------------------
+    // const [desc, setDesc] = useState<string>([]);
+    //
+    // const handleChange() {
+    //     conveniences.forEach(value => setDesc(value.description));
+    // }
+    //-----------------------------
     return (
         <>
             <div className="container">
@@ -303,23 +323,44 @@ export function UseFormPage() {
 
                     <FormControl isInvalid={errors.convenience && true}>
                         <FormLabel htmlFor="convenience">Comodidades</FormLabel>
-                            <Select
-                                id="convenience"
-                                {...register("convenience.id", {
-                                    required: "O campo comodidades é obrigatório",
-                                })}
-                                size="3"
-                            >
-                                {conveniences.map((convenience: IConvenience) => (
-                                    <option key={convenience.id} value={convenience.id}>
-                                        {convenience.description}
-                                    </option>
-                                ))}
-                            </Select>
-                            <FormErrorMessage>
-                                {errors.entrusted && errors.entrusted.message}
-                            </FormErrorMessage>
+                        <Select
+                            id="convenience"
+                            {...register("convenience.id", {
+                                required: "O campo comodidades é obrigatório",
+                            })}
+                            size="3"
+                            multiple={true}
+                        >
+                            {conveniences.map((convenience: IConvenience) => (
+                                <option key={convenience.id} value={convenience.id}>
+                                    {convenience.description}
+                                </option>
+                            ))}
+                        </Select>
+                        <FormErrorMessage>
+                            {errors.entrusted && errors.entrusted.message}
+                        </FormErrorMessage>
                     </FormControl>
+
+                    {/*<div>*/}
+                    {/*    <FormControl sx={{m: 1, width: 300}}>*/}
+                    {/*        <Select*/}
+                    {/*            id="demo-multiple-checkbox"*/}
+                    {/*            multiple*/}
+                    {/*            onChange={handleChange}*/}
+                    {/*            value={desc}*/}
+                    {/*            renderValue={(selected) => selected.join(', ')}*/}
+                    {/*            MenuProps={MenuProps}*/}
+                    {/*        >*/}
+                    {/*            {conveniences.map((convenience: IConvenience)=> (*/}
+                    {/*                <MenuItem key={convenience.description} value={convenience.id}>*/}
+                    {/*                    <Checkbox checked={convenience?.id > -1}/>*/}
+                    {/*                    <ListItemText primary={convenience.description}/>*/}
+                    {/*                </MenuItem>*/}
+                    {/*            ))}*/}
+                    {/*        </Select>*/}
+                    {/*    </FormControl>*/}
+                    {/*</div>*/}
 
                     <FormControl isInvalid={errors.local && true}>
                         <FormLabel htmlFor="local">Local</FormLabel>

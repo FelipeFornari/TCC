@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from "react";
-import {ILocal} from "../../commons/interfaces.ts";
+import {ICities, ILocal} from "../../commons/interfaces.ts";
 import localService from "../../services/LocalService.ts";
 import {MultiPoint, Point} from "ol/geom";
 import {Feature, View} from "ol";
@@ -9,7 +9,7 @@ import FullScreenControl from "../../components/Map/Controls/FullScreenControl.t
 import {useGeographic} from "ol/proj";
 import {Fill, Style } from "ol/style";
 import CircleStyle from "ol/style/Circle";
-import {Button} from "@chakra-ui/react";
+import {Button, FormControl, Input} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,8 +17,13 @@ import Accordion from 'react-bootstrap/Accordion';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {Form} from "react-bootstrap";
+import {useForm} from "react-hook-form";
+import citiesService from "../../services/CitiesService.ts";
 
 export function MapDisplayPage() {
+    const {
+        register,
+    } = useForm<ILocal>();
     const [data, setData] = useState<ILocal[]>([]);
     const [dataCord, setDataCord] = useState<ILocal>();
     const [apiError, setApiError] = useState("");
@@ -87,28 +92,46 @@ export function MapDisplayPage() {
         navigate(path);
     };
 
+    // const onFind = (name: string) => {
+    //     localService.findAllByName(name)
+    //         .then(() => {
+    //             //recerrega pagina com resultados
+    //         })
+    //         .catch(() => {
+    //             //dialog local não encontrado
+    //         });
+    // };
 
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false)
+        window. location. reload();
+    };
     const handleShow = () => setShow(true);
 
     return (
         <>
             <Navbar className="bg-body-tertiary justify-content-between">
-                <Form>
-                    <Row>
-                        <Col xs="auto">
-                            <Form.Control
-                                type="text"
-                                placeholder="Buscar por nome"
-                                className=" mr-sm-2"
-                            />
-                        </Col>
-                        <Col xs="auto">
-                            <Button type="submit">Buscar</Button>
-                        </Col>
-                    </Row>
-                </Form>
+                {/*<form onSubmit={handleSubmit(onFind())}>*/}
+                    <Form>
+                        <Row>
+                            <Col xs="auto">
+                                <FormControl>
+                                    <Input
+                                        id="city"
+                                        placeholder="Nome do local"
+                                        {...register("name", {
+                                            required: "Digite o nome do local",
+                                        })}
+                                    />
+                                </FormControl>
+                            </Col>
+                            <Col xs="auto">
+                                <Button type="submit">Buscar</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                {/*</form>*/}
             </Navbar>
             <Map
                 center={[cord.getCoordinates()[0], cord.getCoordinates()[1]]} zoom={13} view={view}
