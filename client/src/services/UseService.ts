@@ -1,5 +1,5 @@
 import {api} from "../lib/axios.ts";
-import {IUse} from "../commons/interfaces.ts";
+import {ILocal, IUse} from "../commons/interfaces.ts";
 
 const findAll = () => {
     return api.get('/use');
@@ -21,12 +21,22 @@ const remove = (id: number) => {
     return api.delete(`/use/${id}`);
 }
 
+const findByLocal = (local: ILocal) => {
+    return api.get(`/use/search/local?local=${local}`);
+}
+
+const findAllByLocalId = (id: number) => {
+    return api.get(`/use/search/localId?id=${id}`);
+}
+
 const useService = {
     findAll,
     save,
     findById,
     remove,
-    update
+    update,
+    findByLocal,
+    findAllByLocalId,
 }
 
 export default useService;

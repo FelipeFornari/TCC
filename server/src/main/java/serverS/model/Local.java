@@ -1,12 +1,11 @@
 package serverS.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.geo.Point;
-
 import java.util.List;
 
 @Entity
@@ -42,15 +41,16 @@ public class Local {
     private City city;
 
     @NotNull
-    private Point coordinate;
+    //@Convert(converter = PointConverter.class)
+    //tipo Point
+    private Double[] coordinate;
 
     private String description;
 
-//    @Column
-//    @OneToMany(cascade = CascadeType.ALL,
-//            mappedBy = "locals",
-//            fetch= FetchType.LAZY)
-//    //@JoinColumn(name="image_id")
-//    public List<Image> image;
+    @Column
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "locals",
+            fetch= FetchType.LAZY)
+    public List<Image> image;
 
 }

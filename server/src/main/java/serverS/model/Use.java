@@ -1,5 +1,6 @@
 package serverS.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,9 @@ public class Use {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @ManyToOne
+    private Local local;
 
     @ManyToOne
     private Functionality functionality;
@@ -24,11 +28,10 @@ public class Use {
 
     private String closingTime;
 
-    private String scheduling;
+    private boolean scheduling;
 
     private float usageFee;
 
-    @NotNull
     private boolean petAllowed;
 
     @ManyToOne
@@ -45,7 +48,6 @@ public class Use {
     @NotNull
     private String creationDate;
 
-    @NotNull
     private String reformDate;
 
     @NotNull

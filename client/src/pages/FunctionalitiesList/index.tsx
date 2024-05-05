@@ -38,6 +38,7 @@ export function FunctionalitiesListPage() {
         FunctionalitiesService.findAll()
             .then((response) => {
                 setData(response.data);
+                console.log(response.data.description);
                 setApiError("");
             })
             .catch(() => {
@@ -73,9 +74,9 @@ export function FunctionalitiesListPage() {
                         className="btn btn-success btn-icon mb-3"
                         to="/cadastro/funcionalidades"
                         title="Novo Local"
-                        style={{ display: "inline-block" }}
+                        style={{display: "inline-block"}}
                     >
-                        <BsPlusCircle style={{ display: "inline-block" }} /> Nova Funcionalidade
+                        <BsPlusCircle style={{display: "inline-block"}}/> Nova Funcionalidade
                     </Link>
                 </div>
                 <TableContainer>
@@ -91,7 +92,7 @@ export function FunctionalitiesListPage() {
                             {data.map((func: IFunctionality) => (
                                 <Tr
                                     key={func.id}
-                                    _hover={{ cursor: "pointer", background: "#eee" }}
+                                    _hover={{cursor: "pointer", background: "#eee"}}
                                 >
                                     <Td>{func.id}</Td>
                                     <Td>{func.description}</Td>
@@ -100,18 +101,18 @@ export function FunctionalitiesListPage() {
                                             <MenuButton
                                                 as={IconButton}
                                                 aria-label="Actions"
-                                                icon={<BsThreeDotsVertical size={20} />}
+                                                icon={<BsThreeDotsVertical size={20}/>}
                                                 variant="ghost"
                                             />
                                             <MenuList>
                                                 <MenuItem
-                                                    icon={<BsPencilSquare />}
+                                                    icon={<BsPencilSquare/>}
                                                     onClick={() => onEdit(`/cadastro/funcionalidades/${func.id}`)}
                                                 >
                                                     Editar
                                                 </MenuItem>
                                                 <MenuItem
-                                                    icon={<BsTrash />}
+                                                    icon={<BsTrash/>}
                                                     onClick={() => onRemove(func.id!)}
                                                 >
                                                     Remover
@@ -126,6 +127,9 @@ export function FunctionalitiesListPage() {
                 </TableContainer>
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
                 {showDeleteMessage && <div className="alert alert-success">Funcionalidade removida com sucesso!</div>}
+            </div>
+            <div className="text-center">
+                <Link to="/cadastro/comodidades/list">Voltar</Link>
             </div>
         </>
     );

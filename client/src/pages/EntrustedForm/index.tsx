@@ -116,7 +116,7 @@ export function EntrustedFormPage () {
                 </form>
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
                 <div className="text-center">
-                    <Link to="/cadastro">Voltar</Link>
+                    <Link to="/cadastro/responsaveis/list">Voltar</Link>
                 </div>
             </div>
         </>

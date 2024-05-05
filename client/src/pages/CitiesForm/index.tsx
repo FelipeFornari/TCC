@@ -18,7 +18,7 @@ export function CityFormPage () {
     const [entity, setEntity] = useState<ICities>({
         id: undefined,
         city: "",
-        uF: "",
+        uf: "",
     });
 
     const loadData = async () => {
@@ -29,7 +29,7 @@ export function CityFormPage () {
                         setEntity({
                             id: response.data.id,
                             city: response.data.city,
-                            uF: response.data.uF,
+                            uf: response.data.uf,
                         });
                         setApiError("");
                     } else {
@@ -62,7 +62,7 @@ export function CityFormPage () {
             id: entity.id,
         };
         console.log(city.city)
-        console.log(city.uF)
+        console.log(city.uf)
         citiesService.save(city)
             .then(() => {
                 navigate("/cadastro/cidades/list");
@@ -92,17 +92,17 @@ export function CityFormPage () {
                         </FormErrorMessage>
                     </FormControl>
 
-                    <FormControl isInvalid={errors?.uF && true}>
-                        <FormLabel htmlFor="uF">UF</FormLabel>
+                    <FormControl isInvalid={errors?.uf && true}>
+                        <FormLabel htmlFor="uf">UF</FormLabel>
                         <Input
-                            id="uF"
-                            placeholder="UF"
-                            {...register("uF", {
+                            id="uf"
+                            placeholder="uf"
+                            {...register("uf", {
                                 required: "O campo uf é obrigatório",
                             })}
                         />
                         <FormErrorMessage>
-                            {errors?.uF && errors.uF.message}
+                            {errors?.uf && errors.uf.message}
                         </FormErrorMessage>
                     </FormControl>
 
@@ -119,7 +119,7 @@ export function CityFormPage () {
                 </form>
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
                 <div className="text-center">
-                    <Link to="/cadastro">Voltar</Link>
+                    <Link to="/cadastro/cidades/list">Voltar</Link>
                 </div>
             </div>
         </>

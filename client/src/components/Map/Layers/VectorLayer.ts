@@ -1,16 +1,15 @@
 import { memo, useContext, useEffect } from "react";
 import OLVectorLayer from "ol/layer/Vector";
+import { Geometry } from "ol/geom";
 import VectorSource from "ol/source/Vector";
 import MapContext from "../MapContext";
 import { Style } from "ol/style";
-import {MultiPoint} from "ol/geom";
-import {Feature} from "ol";
 
 type VectorLayerProps = {
-  // @ts-ignore
-  source: VectorSource<Feature<MultiPoint>>;
-  zIndex?: number;
+  // @ts-expect-error geometry
+  source: VectorSource<Geometry>;
   style?: Style;
+  zIndex?: number;
 };
 
 const VectorLayer = ({ source, style, zIndex = 0 }: VectorLayerProps) => {
@@ -19,9 +18,7 @@ const VectorLayer = ({ source, style, zIndex = 0 }: VectorLayerProps) => {
   useEffect(() => {
     if (!map) return;
 
-
     let vectorLayer = new OLVectorLayer({
-      // @ts-ignore
       source,
       style,
     });

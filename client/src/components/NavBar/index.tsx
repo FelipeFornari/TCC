@@ -170,6 +170,34 @@ export function NavBar() {
               </Dropdown.Menu>
             </Dropdown>
 
+            <Dropdown>
+              <Dropdown.Toggle variant="light" id="dropdown-basic">
+                Atrativos
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <li className="nav-item">
+                  <NavLink
+                      to="/cadastro/atrativos"
+                      className={(navData) =>
+                          navData.isActive ? "nav-link active" : "nav-link"
+                      }
+                  >
+                    Cadastrar atrativos
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                      to="/cadastro/atrativos/list"
+                      className={(navData) =>
+                          navData.isActive ? "nav-link active" : "nav-link"
+                      }
+                  >
+                    Editar/Excluir atrativos
+                  </NavLink>
+                </li>
+              </Dropdown.Menu>
+            </Dropdown>
+
             <li className="nav-item">
               <button className="btn btn-light"
                       onClick={onClickLogout}>

@@ -57,6 +57,15 @@ public class WebSecurity {
                 .requestMatchers(antMatcher(HttpMethod.POST, "/users/**")).permitAll()
                 .requestMatchers(antMatcher("/error/**")).permitAll()
                 .requestMatchers(antMatcher("/h2-console/**")).permitAll()
+
+                .requestMatchers(antMatcher(HttpMethod.GET, "/locals/**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET, "/images/**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET, "/city/**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET, "/functionalities/**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET, "/use/**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET, "/entrusteds/**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET, "/convenience/**")).permitAll()
+
                 .anyRequest().authenticated()
         );
         http.authenticationManager(authenticationManager)

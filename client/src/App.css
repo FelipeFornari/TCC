@@ -73,8 +73,33 @@
   left: 40px;
   right: 40px;
   bottom: 40px;
-  border: 1px solid green;
-  background-color: #ffbf00;
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
   border-radius: 20px;
   padding: 20px;
+}
+#direita{
+
+}
+
+.wrap {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  width: 40%;
+  height: 100px;
+  background-color: red;
+  border-width: 0.1rem;
+  border-style: solid;
+  border-color: black;
+}
+
+@media only screen and (max-width: 600px) {
+  .item {
+    background-color: blue;
+    width: 100%;
+  }
 }

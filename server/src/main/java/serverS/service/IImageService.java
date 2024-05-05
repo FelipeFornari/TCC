@@ -1,7 +1,11 @@
 package serverS.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import serverS.dto.ImageDTO;
 import serverS.model.Image;
+import serverS.model.Local;
+
+import java.util.List;
 
 public interface IImageService extends ICrudService<Image, Long> {
 
@@ -11,5 +15,11 @@ public interface IImageService extends ICrudService<Image, Long> {
     //void saveImageFile(MultipartFile file, Image image);
 
     String getImage(Long id);
+
+    void saveImages(MultipartFile[] images, Local local);
+
+    void saveImagesTest(MultipartFile images, Local local);
+
+    List<ImageDTO> getImageList(Long id);
 //retornar uma lista de imagens
 }

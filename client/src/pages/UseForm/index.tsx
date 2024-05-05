@@ -1,31 +1,41 @@
-import {IConvenience, IEntrusted, ILocal, IFunctionality, IUse} from "../../commons/interfaces.ts";
+import {IConvenience, IEntrusted, ILocal, IFunctionality, IUse, ICities} from "../../commons/interfaces.ts";
 import {useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button, Checkbox, FormControl, FormErrorMessage, FormLabel, Input, Select, Textarea} from "@chakra-ui/react";
-import {Point} from "ol/geom";
+import {
+    Button,
+    Checkbox,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Input,
+    Select,
+    Textarea,
+} from "@chakra-ui/react";
 import useService from "../../services/UseService.ts";
 import {useGeographic} from "ol/proj";
 import EntrustedService from "../../services/EntrustedService.ts";
 import LocalService from "../../services/LocalService.ts";
 import ConvenienceService from "../../services/ConvenienceService.ts";
-import ModalityService from "../../services/FunctionalityService.ts";
+import FunctionalityService from "../../services/FunctionalityService.ts";
+import citiesService from "../../services/CitiesService.ts";
 
-export function UseFormPage () {
+export function UseFormPage() {
     const {
         handleSubmit,
         register,
-        formState: { errors, isSubmitting },
+        formState: {errors, isSubmitting},
         reset,
     } = useForm<IUse>();
     const [apiError, setApiError] = useState("");
     const navigate = useNavigate();
-    const { id } = useParams();
-    const cord = new Point([-52.67188958131138, -26.227052900970108]);
+    const {id} = useParams();
+    //const cord = new Point([-52.67188958131138, -26.227052900970108]);
     const [entrusteds, setEntrusteds] = useState<IEntrusted[]>([]);
     const [conveniences, setConveniences] = useState<IConvenience[]>([]);
     const [locals, setLocals] = useState<ILocal[]>([]);
-    const [modalities, setModalities] = useState<IFunctionality[]>([]);
+    const [functionalities, setFunctionalities] = useState<IFunctionality[]>([]);
+    const [cities, setCities] = useState<ICities[]>([]);
     useGeographic();
 
     const [entity, setEntity] = useState<IUse>({
@@ -42,24 +52,24 @@ export function UseFormPage () {
             name: "",
             phoneNumber: ""
         },
-        local:{
+        local: {
             id: undefined,
             name: "",
             street: "",
             number: "",
-            CEP: "",
+            cep: "",
             district: "",
             city: {
                 id: undefined,
                 city: "",
-                uF: ""
+                uf: ""
             },
-            coordinate: cord,
+            coordinate: [0, 0],
             description: "",
-            imageName: "",
+            //imageName: "",
         },
         maximumCapacity: 0,
-        modality: {
+        functionality: {
             id: undefined,
             description: ""
         },
@@ -90,6 +100,15 @@ export function UseFormPage () {
                 setApiError("Falha ao carregar a combo de responsáveis.");
             });
 
+        await citiesService.findAll()
+            .then((response) => {
+                setCities(response.data);
+                setApiError("");
+            })
+            .catch(() => {
+                setApiError("Falha ao carregar a combo de cidades.");
+            });
+
         await LocalService.findAll()
             .then((response) => {
                 setLocals(response.data);
@@ -108,13 +127,13 @@ export function UseFormPage () {
                 setApiError("Falha ao carregar a combo de comodidades.");
             });
 
-        await ModalityService.findAll()
+        await FunctionalityService.findAll()
             .then((response) => {
-                setModalities(response.data);
+                setFunctionalities(response.data);
                 setApiError("");
             })
             .catch(() => {
-                setApiError("Falha ao carregar a combo de modalidades.");
+                setApiError("Falha ao carregar a combo de funcionalidades.");
             });
 
         if (id) {
@@ -125,37 +144,22 @@ export function UseFormPage () {
                             id: response.data.id,
                             ageGroup: response.data.ageGroup,
                             closingTime: response.data.closingTime,
-                            convenience: {
-                                id: response.data.convenience.id,
-                                description: response.data.convenience.description,
-                            },
+                            convenience: response.data.convenience.id,
                             creationDate: response.data.creationDate,
-                            entrusted: {
-                                id: response.data.entrusted.id,
-                                name: response.data.entrusted.name,
-                                phoneNumber: response.data.entrusted.phoneNumber
-                            },
+                            entrusted: response.data.entrusted.id,
                             local: {
                                 id: response.data.local.id,
-                                name: response.data.local.name,
-                                street: response.data.local.street,
-                                number: response.data.local.number,
-                                CEP: response.data.local.CEP,
-                                district: response.data.local.district,
-                                city: {
-                                    id: response.data.local.city.id,
-                                    city: response.data.local.city.city,
-                                    uF: response.data.local.city.uF
-                                },
-                                coordinate: response.data.local.coordinate,
-                                description: response.data.local.description,
-                                imageName: response.data.local.imageName
+                                city: response.data.local.city.id,
+                                name: "",
+                                street: "",
+                                number: "",
+                                cep: "",
+                                district: "",
+                                coordinate: [0, 0],
+                                description: ""
                             },
                             maximumCapacity: response.data.maximumCapacity,
-                            modality: {
-                                    id: response.data.modality.id,
-                                    description: response.data.modality.description
-                            },
+                            functionality: response.data.functionality.id,
                             openingTime: response.data.openingTime,
                             petAllowed: response.data.petAllowed,
                             reformDate: response.data.reformDate,
@@ -175,32 +179,15 @@ export function UseFormPage () {
         } else {
             setEntity(
                 (previousEntity) => {
-                return {
-                    ...previousEntity,
-                    entrusted: { id: entrusteds[0]?.id,
-                        name: "",
-                        phoneNumber: "" },
-                    local: {id: locals[0]?.id,
-                        street: "",
-                        number: "",
-                        CEP: "",
-                        district: "",
-                        city: {
-                            id: undefined,
-                            city: "",
-                            uF: ""
-                        },
-                        coordinate: cord,
-                        description: "",
-                        bluePrint: "",
-                        imageName: "",
-                    },
-                    modality: {id: modalities[0]?.id,
-                        description: ""},
-                    convenience: { id: conveniences[0]?.id,
-                        description: "" },
-                };
-            });
+                    return {
+                        ...previousEntity,
+                        entrusted: entrusteds[0],
+                        local: locals[0],
+                        cities: cities[0],
+                        functionality: functionalities[0],
+                        convenience: conveniences[0],
+                    };
+                });
         }
     };
 
@@ -208,11 +195,39 @@ export function UseFormPage () {
         const use: IUse = {
             ...data,
             id: entity.id,
+            convenience: {
+                id: data.convenience.id,
+                description: ""
+            },
+            entrusted: {
+                id: data.entrusted.id,
+                name: "",
+                phoneNumber: ""
+            },
+            local: {
+                id: data.local.id,
+                name: "",
+                street: "",
+                number: "",
+                cep: "",
+                district: "",
+                city: {
+                    city: "",
+                    uf: ""
+                },
+                coordinate: [0, 0],
+                description: "",
+            },
+            maximumCapacity: 0,
+            functionality: {
+                id: data.functionality.id,
+                description: ""
+            },
         };
 
         useService.save(use)
             .then(() => {
-                navigate("/cadastro");
+                navigate("/cadastro/atrativos/list");
             })
             .catch(() => {
                 setApiError("Falha ao salvar a utilização.");
@@ -283,6 +298,66 @@ export function UseFormPage () {
 
                         <FormErrorMessage>
                             {errors.entrusted && errors.entrusted.message}
+                        </FormErrorMessage>
+                    </FormControl>
+
+                    <FormControl isInvalid={errors.convenience && true}>
+                        <FormLabel htmlFor="convenience">Comodidades</FormLabel>
+                            <Select
+                                id="convenience"
+                                {...register("convenience.id", {
+                                    required: "O campo comodidades é obrigatório",
+                                })}
+                                size="3"
+                            >
+                                {conveniences.map((convenience: IConvenience) => (
+                                    <option key={convenience.id} value={convenience.id}>
+                                        {convenience.description}
+                                    </option>
+                                ))}
+                            </Select>
+                            <FormErrorMessage>
+                                {errors.entrusted && errors.entrusted.message}
+                            </FormErrorMessage>
+                    </FormControl>
+
+                    <FormControl isInvalid={errors.local && true}>
+                        <FormLabel htmlFor="local">Local</FormLabel>
+                        <Select
+                            id="local"
+                            {...register("local.id", {
+                                required: "O campo local é obrigatório",
+                            })}
+                            size="sm"
+                        >
+                            {locals.map((local: ILocal) => (
+                                <option key={local.id} value={local.id}>
+                                    {local.name}
+                                </option>
+                            ))}
+                        </Select>
+                        <FormErrorMessage>
+                            {errors.entrusted && errors.entrusted.message}
+                        </FormErrorMessage>
+                    </FormControl>
+
+                    <FormControl isInvalid={errors.functionality && true}>
+                        <FormLabel htmlFor="local">Funcionalidades</FormLabel>
+                        <Select
+                            id="local"
+                            {...register("functionality.id", {
+                                required: "O campo funcionalidades é obrigatório",
+                            })}
+                            size="sm"
+                        >
+                            {functionalities.map((functionality: IFunctionality) => (
+                                <option key={functionality.id} value={functionality.id}>
+                                    {functionality.description}
+                                </option>
+                            ))}
+                        </Select>
+                        <FormErrorMessage>
+                            {errors.functionality && errors.functionality.message}
                         </FormErrorMessage>
                     </FormControl>
 
@@ -410,7 +485,7 @@ export function UseFormPage () {
                 </form>
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
                 <div className="text-center">
-                    <Link to="/cadastro">Voltar</Link>
+                    <Link to="/cadastro/atrativos/list">Voltar</Link>
                 </div>
             </div>
         </>

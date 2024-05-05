@@ -30,6 +30,8 @@ export function MapListPage() {
     const [showDeleteMessage, setShowDeleteMessage] = useState(false);
     const navigate = useNavigate();
 
+    //const [dataImages, setDataImages] = useState([]);
+
     useEffect(() => {
         loadData();
     }, []);
@@ -43,6 +45,15 @@ export function MapListPage() {
             .catch(() => {
                 setApiError("Falha ao carregar a lista de locais");
             });
+
+        // localService.findAllImages(1)
+        //     .then((response) => {
+        //         setDataImages(response.data);
+        //         setApiError("");
+        //     })
+        //     .catch(() => {
+        //         setApiError("Falha ao carregar a lista de locais");
+        //     });
     };
 
     const onEdit = (path: string) => {
@@ -73,9 +84,9 @@ export function MapListPage() {
                         className="btn btn-success btn-icon mb-3"
                         to="/cadastro/locais/new"
                         title="Novo Local"
-                        style={{ display: "inline-block" }}
+                        style={{display: "inline-block"}}
                     >
-                        <BsPlusCircle style={{ display: "inline-block" }} /> Novo Local
+                        <BsPlusCircle style={{display: "inline-block"}}/> Novo Local
                     </Link>
                 </div>
                 <TableContainer>
@@ -93,7 +104,7 @@ export function MapListPage() {
                             {data.map((map: ILocal) => (
                                 <Tr
                                     key={map.id}
-                                    _hover={{ cursor: "pointer", background: "#eee" }}
+                                    _hover={{cursor: "pointer", background: "#eee"}}
                                 >
                                     <Td>{map.id}</Td>
                                     <Td>{map.name}</Td>
@@ -104,18 +115,18 @@ export function MapListPage() {
                                             <MenuButton
                                                 as={IconButton}
                                                 aria-label="Actions"
-                                                icon={<BsThreeDotsVertical size={20} />}
+                                                icon={<BsThreeDotsVertical size={20}/>}
                                                 variant="ghost"
                                             />
                                             <MenuList>
                                                 <MenuItem
-                                                    icon={<BsPencilSquare />}
+                                                    icon={<BsPencilSquare/>}
                                                     onClick={() => onEdit(`/cadastro/locais/${map.id}`)}
                                                 >
                                                     Editar
                                                 </MenuItem>
                                                 <MenuItem
-                                                    icon={<BsTrash />}
+                                                    icon={<BsTrash/>}
                                                     onClick={() => onRemove(map.id!)}
                                                 >
                                                     Remover
@@ -128,6 +139,16 @@ export function MapListPage() {
                         </Tbody>
                     </Table>
                 </TableContainer>
+                {/*IMAGENS::*/}
+                {/*{dataImages.map((image: any) => (*/}
+                {/*    <>*/}
+                {/*        <img*/}
+                {/*            style={{width: "100px", height: "100px"}}*/}
+                {/*            src={`data:image;base64,${image.image}`}*/}
+                {/*        />*/}
+                {/*        <span>${image.imageName}</span>*/}
+                {/*    </>*/}
+                {/*))}*/}
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
                 {showDeleteMessage && <div className="alert alert-success">Local removido com sucesso!</div>}
             </div>

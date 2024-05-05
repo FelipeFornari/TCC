@@ -5,13 +5,13 @@ const findAll = () => {
     return api.get('/locals');
 }
 
-const save = (local: ILocal) => {
-    return api.post('/locals', local);
+const findAllImages = (id: number) => {
+    return api.get(`/images/list/${id}`)
 }
 
-// const save = (formData: FormData) => {
-//     return api.post("/locals/upload-db", formData);
-// };
+const save = (formData: FormData) => {
+    return api.post("/locals/save-and-upload", formData);
+};
 
 const update = (local: ILocal) => {
     return api.post(`/locals/${local.id}`, local);
@@ -21,8 +21,12 @@ const findById = (id: number) => {
     return api.get(`/locals/${id}`);
 }
 
-const findByName = (name: string) => {
-    return api.get(`/locals/search?name=${name}`);
+const findAllByName = (name: string) => {
+    return api.get(`/locals/search/name?name=${name}`);
+}
+
+const findAllByCoordinate = (coordinate: number[]) => {
+    return api.get(`/locals/search/coordinate?coordinate=${coordinate}`);
 }
 
 const remove = (id: number) => {
@@ -32,9 +36,10 @@ const remove = (id: number) => {
 const localService = {
     findAll,
     save,
-    findById,
-    findByName,
+    findById,findAllByName,
     remove,
-    update
+    update,
+    findAllImages,
+    findAllByCoordinate
 }
 export default localService;

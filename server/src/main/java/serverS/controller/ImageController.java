@@ -6,9 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import serverS.dto.ImageDTO;
+import serverS.dto.ImageLocalDto;
 import serverS.model.Image;
 import serverS.service.ICrudService;
 import serverS.service.IImageService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("images")
@@ -42,16 +45,10 @@ public class ImageController extends CrudController<Image, ImageDTO, Long> {
         return image;
     }
 
-    @PostMapping("download-fs") //está correto?
-    public void download(Long id ){
-        imageService.getImage(id);
+
+    @GetMapping("list/{id}")
+    public List<ImageDTO> getImageListFromLocal(@PathVariable Long id ){
+        return imageService.getImageList(id);
     }
 
-//    @PostMapping("upload-db")
-//    public Image saveImageFile(@RequestPart("image") @Valid Image image,
-//                                 @RequestPart("image") MultipartFile file) {
-//        getService().save(image);
-//        imageService.saveImageFile(file, image);
-//        return image;
-//    }
 }

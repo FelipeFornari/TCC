@@ -1,19 +1,16 @@
 package serverS.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
+import org.springframework.data.geo.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
 import serverS.model.Local;
 import serverS.repository.LocalRepository;
 import serverS.service.ILocalService;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @Slf4j
@@ -38,8 +35,13 @@ public class LocalServiceImpl extends CrudServiceImpl<Local, Long>
     }
 
     @Override
-    public List<Local> findByName(String name) {
-        return localRepository.findByName(name);
+    public List<Local> findAllByName(String name) {
+        return localRepository.findAllByName(name);
+    }
+
+    @Override
+    public Local findAllByCoordinate(Double[] coordinate) {
+        return localRepository.findAllByCoordinate(coordinate);
     }
 
 }

@@ -1,11 +1,13 @@
 package serverS.dto;
 
+import jakarta.persistence.Convert;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.geo.Point;
+import serverS.converter.PointConverter;
 import serverS.model.Image;
 
 import java.util.List;
@@ -39,7 +41,8 @@ public class LocalDTO {
     private CityDTO city;
 
     @NotNull
-    private Point coordinate;
+    //@Convert(converter = PointConverter.class)
+    private Double[] coordinate;
 
     private String description;
 

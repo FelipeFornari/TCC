@@ -1,5 +1,3 @@
-import {Point} from "ol/geom";
-
 export interface IUserLogin {
     username: string;
     password: string;
@@ -12,7 +10,7 @@ export interface IUserSignup {
 export interface ICities {
     id?: number;
     city: string;
-    uF: string,
+    uf: string,
 }
 
 export interface IConvenience {
@@ -38,10 +36,10 @@ export interface ILocal {
     name: string;
     street: string;
     number: string;
-    CEP: string;
+    cep: string;
     district: string;
     city: ICities;
-    coordinate: Point;
+    coordinate: number[];
     description: string;
     //image: Array<IImage>;
 }
@@ -53,7 +51,7 @@ export interface IFunctionality {
 
 export interface IUse {
     id?: number;
-    modality: IFunctionality;
+    functionality: IFunctionality;
     local: ILocal;
     openingTime: string;
     closingTime: string;
@@ -62,13 +60,10 @@ export interface IUse {
     petAllowed: boolean;
     entrusted: IEntrusted;
     ageGroup: string;
-    convenience: IConvenience;
+    convenience: IConvenience;//criar array
     termsOfUse: string;
     creationDate: string;
     reformDate: string;
     maximumCapacity: number;
-    specialMaximumCapacity: number;
+    specialMaximumCapacity?: number;
 }
-
-
-

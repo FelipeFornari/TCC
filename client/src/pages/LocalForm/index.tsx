@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {View} from "ol";
 import {osm} from "../../components/Map/Source";
 import {Layers, TileLayer} from "../../components/Map/Layers";
@@ -19,74 +19,83 @@ import {useForm} from "react-hook-form";
 import {ILocal, ICities} from "../../commons/interfaces.ts";
 import localService from "../../services/LocalService.ts";
 import {Point} from "ol/geom";
-import Modal from "../../components/Modal/modal.jsx";
-import TitleCord from "../../components/TitleCord/titleCord.jsx";
 import citiesService from "../../services/CitiesService.ts";
-//import imageService from "../../services/ImageService.ts";
+import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import imageService from "../../services/ImageService.ts";
 
-export function MapFormPage () {
+export function MapFormPage() {
 
     useGeographic();
     const {
         handleSubmit,
         register,
-        formState: { errors, isSubmitting },
+        formState: {errors, isSubmitting},
         reset,
     } = useForm<ILocal>();
     const [zoom] = useState(13);
     const cord = new Point([-52.67188958131138, -26.227052900970108]);
+    const [crd, setcrd] = useState<Point>(cord);
     const [apiError, setApiError] = useState("");
     const [cities, setCities] = useState<ICities[]>([]);
-    //const [images, setImages] = useState<IImage>([]);
     const navigate = useNavigate();
-    const { id } = useParams();
+    const {id} = useParams();
+    const [images, setImages] = useState([]);
+    const [image, setImage] = useState();
     const [entity, setEntity] = useState<ILocal>({
-        id: undefined,
-        CEP: "",
+        cep: "",
         city: {
             id: undefined,
             city: "",
-            uF: ""
+            uf: ""
         },
-        coordinate: cord,
+        coordinate: [0, 0],
         description: "",
         district: "",
+        id: undefined,
         name: "",
         number: "",
         street: "",
-        //image:[],
     });
-    const [openModal, setOpenModal] = useState(false)
 
     const loadData = async () => {
-        await citiesService.findAll().then((response) => {
-            setCities(response.data);
-            setApiError("");
-        })
+        await citiesService.findAll()
+            .then((response) => {
+                setCities(response.data);
+                setApiError("");
+            })
             .catch(() => {
                 setApiError("Falha ao carregar a combo de cidades.");
             });
 
-
         if (id) {
+            imageService.findAllByLocalsId(parseInt(id))
+                .then((response) => {
+                    setImages(response.data);
+                    setApiError("");
+                })
+                .catch(() => {
+                    setApiError("Falha ao carregar imagens.");
+                });
+
             localService.findById(parseInt(id))
                 .then((response) => {
                     if (response.data) {
                         setEntity({
                             id: response.data.id,
-                            CEP: response.data.CEP,
+                            cep: response.data.cep,
                             city: {
                                 id: response.data.city.id,
                                 city: response.data.city.city,
-                                uF: response.data.city.uF
+                                uf: response.data.city.uf
                             },
-                            coordinate: cord,
+                            coordinate: response.data.coordinate,
                             description: response.data.description,
                             district: response.data.district,
                             name: response.data.name,
                             number: response.data.number,
                             street: response.data.street,
-                            // image: [],//como carregar informações de um array??
                         });
                         setApiError("");
                     } else {
@@ -94,13 +103,13 @@ export function MapFormPage () {
                     }
                 })
                 .catch(() => {
-                    setApiError("Falha ao carregar o local");
+                    setApiError("Falha ao carregar o local e/ou imagens");
                 });
         } else {
             setEntity((previousEntity) => {
                 return {
                     ...previousEntity,
-                    city: { id: cities[0]?.id, city: "", uF: "" },
+                    city: {id: cities[0]?.id, city: "", uf: ""},
                 };
             });
         }
@@ -109,7 +118,7 @@ export function MapFormPage () {
     const view = useMemo(
         () =>
             new View({
-                center:[cord.getCoordinates()[0], cord.getCoordinates()[1]],
+                center: [cord.getCoordinates()[0], cord.getCoordinates()[1]],
                 zoom,
             }),
         [cord, zoom]
@@ -123,41 +132,68 @@ export function MapFormPage () {
         reset(entity);
     }, [entity, reset]);
 
+
+    const onFileChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const imagesArray = []
+            for (let i = 0; i < event.target.files.length; i++) {
+                imagesArray.push(event.target.files[i])
+            }
+            // @ts-ignore
+            setImages(imagesArray);
+        }
+
+        // @ts-ignore
+        setImage(event.target.files ? event.target.files[0] : null);
+        // setImages(event.target.files ? event.target.files[0] : null);
+    };
+
     const onSubmit = (data: ILocal) => {
+        //remover imagem
         const local: ILocal = {
             ...data,
             id: entity.id,
+            coordinate: crd.getCoordinates(),
+            city: {id: data.city.id, city: "", uf: ""},
         };
 
-        localService.save(local)
+        const formData = new FormData();
+        if (images) {
+            // let index = 0;
+            for (let i = 0; i < images.length; i++) {
+                formData.append("images", images[i]);
+            }
+        }
+        // if (image)
+        //     formData.append("images", image);
+        const blob = new Blob([JSON.stringify(local)], {
+            type: "application/json",
+        });
+        formData.append("local", blob);
+
+        localService.save(formData)
             .then(() => {
                 navigate("/cadastro/locais/list");
             })
             .catch(() => {
                 setApiError("Falha ao salvar o local.");
             });
-
-        // const image: IImage = {
-        //     ...data,
-        //     id: entity.id,
-        // };
-        //
-        // imageService.save(image)
-        //     .then(() => {
-        //         navigate("/cadastro/locais/list");
-        //     })
-        //     .catch(() => {
-        //         setApiError("Falha ao salvar a imagem.");
-        //     });
     };
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <>
             <Map center={[cord.getCoordinates()[0], cord.getCoordinates()[1]]} zoom={13} view={view}
                  callBack={map => map.on('click', function (ev) {
-                     cord.setCoordinates(ev.coordinate);
-                     console.log(cord);
-                     setOpenModal(true);
+                     const pt = new Point(ev.coordinate);
+                     console.log("ev.coord" + ev.coordinate);
+                     setcrd(pt);
+                     //setOpenModal(true);
+                     handleShow();
                  })}
             >
                 <Layers>
@@ -168,159 +204,173 @@ export function MapFormPage () {
                 </Controls>
             </Map>
 
-            <Modal isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)}>
-                <TitleCord c1={cord.getCoordinates()[0].toString()} c2={cord.getCoordinates()[1].toString()}/>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <FormControl isInvalid={errors?.name && true}>
-                        <FormLabel htmlFor="name">Nome</FormLabel>
-                        <Input
-                            id="name"
-                            placeholder="Nome do local"
-                            {...register("name", {
-                                required: "O campo nome é obrigatório",
-                            })}
-                        />
-                        <FormErrorMessage>
-                            {errors?.name && errors.name.message}
-                        </FormErrorMessage>
-                    </FormControl>
+            <Modal show={show}
+                   onHide={handleClose}
+                   fullscreen={true}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        Cadastrar Coordenadas:
+                        {crd.getCoordinates()[0].toString()}
+                        {crd.getCoordinates()[1].toString()}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Row>
+                            <Col>
+                                <FormControl isInvalid={errors?.name && true}>
+                                    <FormLabel htmlFor="name">Nome</FormLabel>
+                                    <Input
+                                        id="name"
+                                        placeholder="Nome do local"
+                                        {...register("name", {
+                                            required: "O campo nome é obrigatório",
+                                        })}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors?.name && errors.name.message}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <FormControl isInvalid={errors.city && true}>
+                                    <FormLabel htmlFor="city">Cidade</FormLabel>
+                                    <Select
+                                        id="city"
+                                        {...register("city.id", {
+                                            required: "O campo cidade é obrigatório",
+                                        })}
+                                        size="sm"
+                                    >
+                                        {cities.map((city: ICities) => (
+                                            <option key={city.id} value={city.id}>
+                                                {city.city}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                    <FormErrorMessage>
+                                        {errors.city && errors.city.message}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Col>
+                            <Col>
+                                <FormControl isInvalid={errors?.street && true}>
+                                    <FormLabel htmlFor="street">Logradouro</FormLabel>
+                                    <Input
+                                        id="street"
+                                        placeholder="Nome do logradouro"
+                                        {...register("street", {
+                                            required: "O campo logradouro é obrigatório",
+                                        })}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors?.street && errors.street.message}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Col>
+                            <Col>
+                                <FormControl isInvalid={errors?.number && true}>
+                                    <FormLabel htmlFor="number">Número</FormLabel>
+                                    <Input
+                                        id="number"
+                                        placeholder="000"
+                                        {...register("number", {
+                                            required: "O campo número é obrigatório",
+                                        })}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors?.number && errors.number.message}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <FormControl isInvalid={errors?.cep && true}>
+                                    <FormLabel htmlFor="cep">CEP</FormLabel>
+                                    <Input
+                                        id="cep"
+                                        placeholder="00000000"
+                                        {...register("cep", {
+                                            required: "O campo CEP é obrigatório",
+                                        })}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors?.cep && errors.cep.message}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Col>
+                            <Col>
 
-                    <FormControl isInvalid={errors.city && true}>
-                        <FormLabel htmlFor="city">Cidade</FormLabel>
-                        <Select
-                            id="city"
-                            {...register("city.id", {
-                                required: "O campo cidade é obrigatório",
-                            })}
-                            size="sm"
-                        >
-                            {cities.map((city: ICities) => (
-                                <option key={city.id} value={city.id}>
-                                    {city.city}
-                                </option>
-                            ))}
-                        </Select>
-                        <FormErrorMessage>
-                            {errors.city && errors.city.message}
-                        </FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={errors?.street && true}>
-                        <FormLabel htmlFor="street">Logradouro</FormLabel>
-                        <Input
-                            id="street"
-                            placeholder="Nome do logradouro"
-                            {...register("street", {
-                                required: "O campo logradouro é obrigatório",
-                            })}
-                        />
-                        <FormErrorMessage>
-                            {errors?.street && errors.street.message}
-                        </FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={errors?.number && true}>
-                        <FormLabel htmlFor="number">Número</FormLabel>
-                        <Input
-                            id="number"
-                            placeholder="000"
-                            {...register("number", {
-                                required: "O campo número é obrigatório",
-                            })}
-                        />
-                        <FormErrorMessage>
-                            {errors?.number && errors.number.message}
-                        </FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={errors?.CEP && true}>
-                        <FormLabel htmlFor="CEP">CEP</FormLabel>
-                        <Input
-                            id="CEP"
-                            placeholder="00000000"
-                            {...register("CEP", {
-                                required: "O campo CEP é obrigatório",
-                            })}
-                        />
-                        <FormErrorMessage>
-                            {errors?.CEP && errors.CEP.message}
-                        </FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={errors?.district && true}>
-                        <FormLabel htmlFor="district">Bairro</FormLabel>
-                        <Input
-                            id="district"
-                            placeholder="Nome do bairro"
-                            {...register("district", {
-                                required: "O campo bairro é obrigatório",
-                            })}
-                        />
-                        <FormErrorMessage>
-                            {errors?.district && errors.district.message}
-                        </FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={errors?.description && true}>
-                        <FormLabel htmlFor="description">Descrição</FormLabel>
-                        <Textarea
-                            id="description"
-                            maxLength={1024}
-                            placeholder="Descrição do local"
-                            {...register("description", {
-                                required: "O campo descrição é obrigatório",
-                                minLength: {
-                                    value: 2,
-                                    message: "O tamanho deve ser entre 2 e 1024 caracteres",
-                                },
-                                maxLength: {
-                                    value: 1024,
-                                    message: "O tamanho deve ser entre 2 e 1024 caracteres",
-                                },
-                            })}
-                            size="sm"
-                        />
-                        <FormErrorMessage>
-                            {errors?.description && errors.description.message}
-                        </FormErrorMessage>
-                    </FormControl>
-
-                    {/*<FormControl isInvalid={errors.image && true}>*/}
-                    {/*    <FormLabel htmlFor="image">*/}
-                    {/*        Imagem</FormLabel>*/}
-                    {/*    <Input type="file"*/}
-                    {/*           id={"image"}*/}
-                    {/*           {...register("image",{})}/>*/}
-                    {/*    <FormErrorMessage>*/}
-                    {/*        {errors.image? && errors.image?.message}*/}
-                    {/*    </FormErrorMessage>*/}
-                    {/*</FormControl>*/}
-
-                    {/*<FormControl isInvalid={errors.image && true}>*/}
-                    {/*    <FormLabel htmlFor="image">*/}
-                    {/*        Imagem</FormLabel>*/}
-                    {/*    <Input type="file"*/}
-                    {/*           id={"image"}*/}
-                    {/*           {...register("image",{})}/>*/}
-                    {/*    <FormErrorMessage>*/}
-                    {/*        {errors.image? && errors.image?.message}*/}
-                    {/*    </FormErrorMessage>*/}
-                    {/*</FormControl>*/}
-
-                    {/*como salvar mais de uma imagem em um mesmo array?*/}
-
-                    <div className="text-center">
-                        <Button
-                            mt={4}
-                            colorScheme="teal"
-                            isLoading={isSubmitting}
-                            type="submit"
-                        >
-                            Salvar
-                        </Button>
-                    </div>
-                </form>
-                {apiError && <div className="alert alert-danger">{apiError}</div>}
+                                <FormControl isInvalid={errors?.district && true}>
+                                    <FormLabel htmlFor="district">Bairro</FormLabel>
+                                    <Input
+                                        id="district"
+                                        placeholder="Nome do bairro"
+                                        {...register("district", {
+                                            required: "O campo bairro é obrigatório",
+                                        })}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors?.district && errors.district.message}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <FormControl isInvalid={errors?.description && true}>
+                                <FormLabel htmlFor="description">Descrição</FormLabel>
+                                <Textarea
+                                    id="description"
+                                    maxLength={1024}
+                                    placeholder="Descrição do local"
+                                    {...register("description", {
+                                        required: "O campo descrição é obrigatório",
+                                        minLength: {
+                                            value: 2,
+                                            message: "O tamanho deve ser entre 2 e 1024 caracteres",
+                                        },
+                                        maxLength: {
+                                            value: 1024,
+                                            message: "O tamanho deve ser entre 2 e 1024 caracteres",
+                                        },
+                                    })}
+                                    size="sm"
+                                />
+                                <FormErrorMessage>
+                                    {errors?.description && errors.description.message}
+                                </FormErrorMessage>
+                            </FormControl>
+                        </Row>
+                        <Row>
+                            <FormControl isInvalid={images?.length == 0 && true}>
+                                <FormLabel htmlFor="image">
+                                    Imagem</FormLabel>
+                                <Input type="file"
+                                       multiple={true}
+                                       id={"images"}
+                                       onChange={onFileChangeHandler}
+                                />
+                                <FormErrorMessage>
+                                    {(images?.length == 0) && "Selecione uma imagem"}
+                                </FormErrorMessage>
+                            </FormControl>
+                        </Row>
+                        <div className="text-center">
+                            <Button
+                                mt={4}
+                                colorScheme="teal"
+                                isLoading={isSubmitting}
+                                type="submit"
+                            >
+                                Salvar
+                            </Button>
+                        </div>
+                    </form>
+                    {apiError && <div className="alert alert-danger">{apiError}</div>}
+                </Modal.Body>
             </Modal>
         </>
     );

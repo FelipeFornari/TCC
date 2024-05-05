@@ -17,6 +17,8 @@ public class ImageDTO {
 
     private String imageName;
 
+    private String image; //base64 da imagem
+
 //    private byte[] imageFile;
 //
 //    private String imageFileName;

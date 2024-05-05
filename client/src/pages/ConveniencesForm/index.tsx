@@ -62,7 +62,7 @@ export function ConveniencesFormPage () {
 
         convenienceService.save(convenience)
             .then(() => {
-                navigate("/cadastro");
+                navigate("/cadastro/comodidades/list");
             })
             .catch(() => {
                 setApiError("Falha ao salvar a comodidade.");
@@ -101,7 +101,7 @@ export function ConveniencesFormPage () {
                 </form>
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
                 <div className="text-center">
-                    <Link to="/cadastro">Voltar</Link>
+                    <Link to="/cadastro/comodidades/list">Voltar</Link>
                 </div>
             </div>
         </>

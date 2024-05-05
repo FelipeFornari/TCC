@@ -25,11 +25,16 @@ const remove = (id: number) => {
     return api.delete(`/images/${id}`);
 }
 
+const findAllByLocalsId = (id: number) => {
+    return api.get(`/images/list/${id}`);
+};
+
 const imageService = {
     findAll,
     save,
     findById,
     remove,
-    update
+    update,
+    findAllByLocalsId
 }
 export default imageService;

@@ -1,12 +1,17 @@
 package serverS.dto;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import serverS.model.Convenience;
 import serverS.model.Entrusted;
+import serverS.model.Functionality;
 
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -21,54 +26,37 @@ public class UseDTO {
     private Long id;
 
     @ManyToOne
-    private FunctionalityDTO functionalitiesId;
+    private FunctionalityDTO functionality;
 
-    private Time openingTime;
+    @ManyToOne
+    private LocalDTO local;
 
-    private Time closingTime;
+    private String openingTime;
 
-    private String scheduling;
+    private String closingTime;
 
-    private BigDecimal usageFee;
+    private boolean scheduling;
 
-    @NotNull
+    private float usageFee;
+
     private boolean petAllowed;
 
-    private Entrusted entrusted;
+    @ManyToOne
+    private EntrustedDTO entrusted;
 
     private String ageGroup;
 
-    @NotNull
-    private boolean lockerRooms;
-
-    @NotNull
-    private boolean bathrooms;
-
-    @NotNull
-    private boolean waterDrinker;
-
-    @NotNull
-    private boolean bleachers;
-
-    @NotNull
-    private boolean wiFi;
-
-    @NotNull
-    private boolean accessibility;
+    @ManyToOne
+    private ConvenienceDTO convenience;
 
     @NotNull
     private String termsOfUse;
 
-    @NotNull
-    private Date creationDate;
+    private String creationDate;
 
-    @NotNull
-    private Date reformDate;
+    private String reformDate;
 
-    @NotNull
     private int maximumCapacity;
 
-    @NotNull
     private int specialMaximumCapacity;
-
 }
