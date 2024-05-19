@@ -1,9 +1,6 @@
 package serverS.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +13,7 @@ import serverS.model.Functionality;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -46,8 +44,8 @@ public class UseDTO {
 
     private String ageGroup;
 
-    @ManyToOne
-    private ConvenienceDTO convenience;
+//    @OneToMany
+    private List<ConvenienceDTO> convenience;
 
     @NotNull
     private String termsOfUse;

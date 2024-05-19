@@ -2,17 +2,13 @@ package serverS.controller;
 
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import serverS.dto.ImageDTO;
-import serverS.dto.ImageLocalDto;
-import serverS.model.City;
 import serverS.model.Image;
 import serverS.service.ICrudService;
 import serverS.service.IImageService;
 
-import java.io.File;
 import java.util.List;
 
 @RestController
@@ -56,4 +52,7 @@ public class ImageController extends CrudController<Image, ImageDTO, Long> {
 //    public void remover(@RequestPart File f){
 //        imageService.removerArquivos(f);
 //    }
+
+    @DeleteMapping("deletefile/{id}")
+    public void deleteFile(@PathVariable Long id) {imageService.deleteFile(id);}
 }

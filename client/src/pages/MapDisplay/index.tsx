@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from "react";
-import {ICities, ILocal} from "../../commons/interfaces.ts";
+import {ILocal} from "../../commons/interfaces.ts";
 import localService from "../../services/LocalService.ts";
 import {MultiPoint, Point} from "ol/geom";
 import {Feature, View} from "ol";
@@ -9,24 +9,20 @@ import FullScreenControl from "../../components/Map/Controls/FullScreenControl.t
 import {useGeographic} from "ol/proj";
 import {Fill, Style } from "ol/style";
 import CircleStyle from "ol/style/Circle";
-import {Button, FormControl, Input} from "@chakra-ui/react";
+import {Button, Input} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import Navbar from 'react-bootstrap/Navbar';
 import Accordion from 'react-bootstrap/Accordion';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import {Form} from "react-bootstrap";
-import {useForm} from "react-hook-form";
-import citiesService from "../../services/CitiesService.ts";
+import {Refresh, Search} from "@mui/icons-material";
 
 export function MapDisplayPage() {
-    const {
-        register,
-    } = useForm<ILocal>();
     const [data, setData] = useState<ILocal[]>([]);
     const [dataCord, setDataCord] = useState<ILocal>();
     const [apiError, setApiError] = useState("");
+    const [nomeLocal, setNomeLocal] = useState("");
     const cord = new Point([-52.67188958131138, -26.227052900970108]);
     const mPoint = new MultiPoint( []);
     const [zoom] = useState(13);
@@ -92,6 +88,17 @@ export function MapDisplayPage() {
         navigate(path);
     };
 
+    function searchLocal(name: string) {
+        localService.findAllByName(name)
+            .then((response) => {
+                setData(response.data);
+                mPoint.setCoordinates(response.data.coordinate);
+                setApiError("");
+            })
+            .catch(() => {
+                setApiError("Falha ao carregar local");
+            })
+    }
     // const onFind = (name: string) => {
     //     localService.findAllByName(name)
     //         .then(() => {
@@ -101,7 +108,6 @@ export function MapDisplayPage() {
     //             //dialog local não encontrado
     //         });
     // };
-
 
     const handleClose = () => {
         setShow(false)
@@ -113,24 +119,29 @@ export function MapDisplayPage() {
         <>
             <Navbar className="bg-body-tertiary justify-content-between">
                 {/*<form onSubmit={handleSubmit(onFind())}>*/}
-                    <Form>
-                        <Row>
-                            <Col xs="auto">
-                                <FormControl>
-                                    <Input
-                                        id="city"
-                                        placeholder="Nome do local"
-                                        {...register("name", {
-                                            required: "Digite o nome do local",
-                                        })}
-                                    />
-                                </FormControl>
-                            </Col>
-                            <Col xs="auto">
-                                <Button type="submit">Buscar</Button>
-                            </Col>
-                        </Row>
-                    </Form>
+                <Row>
+                    <Col xs="auto">
+                        <Input
+                            id="searchName"
+                            name="searchName"
+                            type="search"
+                            className="search-input"
+                            placeholder="Nome do local"
+                            style={{width: 500}}
+                            onChange={(e) => setNomeLocal(e.target.value)}
+                        />
+                    </Col>
+                    <Col xs="auto">
+                        <Button
+                            leftIcon={<Search />}
+                            onClick={() =>searchLocal(nomeLocal)}>Buscar</Button>
+                    </Col>
+                    <Col xs="auto">
+                        <Button
+                            leftIcon={<Refresh />}
+                            onClick={() =>loadData()}>Recarregar</Button>
+                    </Col>
+                </Row>
                 {/*</form>*/}
             </Navbar>
             <Map
@@ -168,7 +179,7 @@ export function MapDisplayPage() {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
-                            Close
+                            Fechar
                         </Button>
                         <Button variant="primary" onClick={() => onSearch(`/local/${dataCord?.id}`)}>
                             Ver local
@@ -178,12 +189,12 @@ export function MapDisplayPage() {
             </Map>
             <Accordion defaultActiveKey="0">
                 {data.map((map: ILocal, i) => (
-                <Accordion.Item eventKey={i.toString()}>
-                    <Accordion.Header>{map.name}</Accordion.Header>
-                    <Accordion.Body onClick={() => onSearch(`/local/${map.id}`)}>
-                        {map.description}
-                    </Accordion.Body>
-                </Accordion.Item>
+                    <Accordion.Item eventKey={i.toString()}>
+                        <Accordion.Header>{map.name}</Accordion.Header>
+                        <Accordion.Body onClick={() => onSearch(`/local/${map.id}`)}>
+                            {map.description}
+                        </Accordion.Body>
+                    </Accordion.Item>
                 ))}
             </Accordion>
             {apiError && <div className="alert alert-danger">{apiError}</div>}

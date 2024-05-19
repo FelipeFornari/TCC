@@ -1,11 +1,12 @@
 package serverS.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_use")
@@ -17,8 +18,9 @@ public class Use {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
+    @JoinColumn(name="local_id")
     private Local local;
 
     @ManyToOne
@@ -39,8 +41,15 @@ public class Use {
 
     private String ageGroup;
 
-    @ManyToOne
-    private Convenience convenience;
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "uses",
+            fetch= FetchType.LAZY)
+    private List<Convenience> convenience;
+
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "uses",
+            fetch= FetchType.LAZY)
+    private List<Accessibility> accessibilities;
 
     @NotNull
     private String termsOfUse;

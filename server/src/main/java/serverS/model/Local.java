@@ -53,4 +53,9 @@ public class Local {
             fetch= FetchType.LAZY)
     public List<Image> image;
 
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "local",
+            fetch= FetchType.LAZY)
+    private List<Use> uses;
+
 }

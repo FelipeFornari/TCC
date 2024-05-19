@@ -17,7 +17,7 @@ public class Image {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="local_id")
     private Local locals;
 

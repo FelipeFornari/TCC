@@ -6,6 +6,7 @@ import serverS.model.Image;
 import serverS.model.Local;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 public interface IImageService extends ICrudService<Image, Long> {
@@ -24,4 +25,6 @@ public interface IImageService extends ICrudService<Image, Long> {
     List<ImageDTO> getImageList(Long id);
 
 //    void removerArquivos(File f);
+
+    void deleteFile(Long id);
 }

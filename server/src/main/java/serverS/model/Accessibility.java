@@ -8,18 +8,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tb_convenience")
+@Table(name = "tb_accessibilities")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Convenience {
-
+public class Accessibility {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String description;
+    private String type;
 
     @JsonIgnore
     @ManyToOne

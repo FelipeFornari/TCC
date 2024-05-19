@@ -24,6 +24,8 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import imageService from "../../services/ImageService.ts";
+import {Image} from "react-bootstrap";
+import {Delete} from "@mui/icons-material";
 
 export function MapFormPage() {
 
@@ -43,6 +45,8 @@ export function MapFormPage() {
     const {id} = useParams();
     const [images, setImages] = useState([]);
     const [image, setImage] = useState();
+    const [show, setShow] = useState(false);
+    const [showDeleteMessage, setShowDeleteMessage] = useState(false);
     const [entity, setEntity] = useState<ILocal>({
         cep: "",
         city: {
@@ -132,7 +136,6 @@ export function MapFormPage() {
         reset(entity);
     }, [entity, reset]);
 
-
     const onFileChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const imagesArray = []
@@ -149,14 +152,12 @@ export function MapFormPage() {
     };
 
     const onSubmit = (data: ILocal) => {
-        //remover imagem
         const local: ILocal = {
             ...data,
             id: entity.id,
             coordinate: crd.getCoordinates(),
             city: {id: data.city.id, city: "", uf: ""},
         };
-
         const formData = new FormData();
         if (images) {
             // let index = 0;
@@ -180,13 +181,56 @@ export function MapFormPage() {
             });
     };
 
-    const [show, setShow] = useState(false);
-
     const handleClose = () => {
         setShow(false)
         window. location. reload();
     };
+
     const handleShow = () => setShow(true);
+
+    const onRemove = (id: number) => {
+        imageService.deleteFile(id)
+            .then(() => {
+                setShowDeleteMessage(true);
+                //loadImagesRow();
+                setTimeout(() => {
+                    setShowDeleteMessage(false);
+                }, 1500);
+                setApiError("");
+            }).catch(() => {
+            setApiError("Falha ao remover a imagem");
+        });
+    }
+
+    function loadImagesRow() {
+        if(id) {
+            return(
+                images.map((image: any) => (
+                    <Row
+                        key={image.id}
+                    >
+                        <Col>
+                            <Image
+                                style={{width: 100, height: 100}}
+                                src={`data:image;base64,${image.image}`}
+                                fluid
+                            />
+                        </Col>
+                        <Col>
+                            <Button
+                                leftIcon={<Delete/>}
+                                onClick={() => onRemove(image.id)}
+                            >
+                            </Button>
+                        </Col>
+                        <Col>
+                            <p>{image.id}</p>
+                            <p>{image.imageName}</p>
+                        </Col>
+                    </Row>
+                )));
+        }
+    }
 
     return (
         <>
@@ -347,18 +391,24 @@ export function MapFormPage() {
                             </FormControl>
                         </Row>
                         <Row>
-                            <FormControl isInvalid={images?.length == 0 && true}>
-                                <FormLabel htmlFor="image">
-                                    Imagem</FormLabel>
-                                <Input type="file"
-                                       multiple={true}
-                                       id={"images"}
-                                       onChange={onFileChangeHandler}
-                                />
-                                <FormErrorMessage>
-                                    {(images?.length == 0) && "Selecione uma imagem"}
-                                </FormErrorMessage>
-                            </FormControl>
+                            <Col>
+                                <FormControl>
+                                    <FormLabel htmlFor="image">
+                                        Imagem</FormLabel>
+                                    <Input type="file"
+                                           colorScheme="teal"
+                                           multiple={true}
+                                           id={"images"}
+                                           onChange={onFileChangeHandler}
+                                    />
+                                    <FormErrorMessage>
+                                        {/*{(images?.length == 0) && "Selecione uma imagem"}*/}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Col>
+                            <Col>
+                                {loadImagesRow()}
+                            </Col>
                         </Row>
                         <div className="text-center">
                             <Button
@@ -372,8 +422,10 @@ export function MapFormPage() {
                         </div>
                     </form>
                     {apiError && <div className="alert alert-danger">{apiError}</div>}
+                    {showDeleteMessage && <div className="alert alert-success">imagem removida com sucesso!</div>}
                 </Modal.Body>
             </Modal>
+
         </>
     );
 }

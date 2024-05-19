@@ -5,10 +5,6 @@ const findAll = () => {
     return api.get('/images');
 }
 
-// const save = (local: ILocal) => {
-//     return api.post('/locals', local);
-// }
-
 const save = (formData: FormData) => {
     return api.post("/images/upload-db", formData);
 };
@@ -29,12 +25,16 @@ const findAllByLocalsId = (id: number) => {
     return api.get(`/images/list/${id}`);
 };
 
+const deleteFile = (id: number) => {
+    return api.delete(`/images/deletefile/${id}`);
+}
 const imageService = {
     findAll,
     save,
     findById,
     remove,
     update,
-    findAllByLocalsId
+    findAllByLocalsId,
+    deleteFile
 }
 export default imageService;

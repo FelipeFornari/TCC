@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -88,7 +90,6 @@ public class ImageServiceImpl extends CrudServiceImpl<Image, Long>
         }
     }
 
-
     public void saveImagesTest(MultipartFile imageFile, Local local) {
             Image image = new Image();
             image.setLocals(local);
@@ -161,4 +162,18 @@ public class ImageServiceImpl extends CrudServiceImpl<Image, Long>
 //        }
 //    }
 
+    public void deleteFile (Long id){
+        Image image = imageRepository.findById(id).orElse(null);
+        assert image != null;
+        Long idLocal  = image.getLocals().getId();
+        String imageName = image.getImageName();
+        Path file = Path.of(FILE_PATH + File.separator + "images-local" +
+                File.separator + idLocal.toString() + File.separator + imageName);
+        try{
+            imageRepository.delete(image);
+            Files.deleteIfExists(file);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 }

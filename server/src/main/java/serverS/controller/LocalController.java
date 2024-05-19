@@ -43,8 +43,8 @@ public class LocalController extends CrudController<Local, LocalDTO, Long> {
     }
 
     @GetMapping("search/name")
-    public ResponseEntity<List<Local>> findAllByName(@RequestParam String name) {
-        return ResponseEntity.ok(localService.findAllByName(name));
+    public ResponseEntity<List<Local>> findAllByNameContaining(@RequestParam String name) {
+        return ResponseEntity.ok(localService.findAllByNameContaining(name));
     }
 
     @GetMapping("search/coordinate")
@@ -59,9 +59,10 @@ public class LocalController extends CrudController<Local, LocalDTO, Long> {
 
     @PostMapping("save-and-upload")
     public Local save(@RequestPart("local") @Valid Local local,
-                      @RequestPart("images") MultipartFile[] images) {
+                      @RequestPart(value = "images", required = false) MultipartFile[] images) {
         getService().save(local);
-        imageService.saveImages(images, local);
+        if ( images != null )
+            imageService.saveImages(images, local);
         return local;
     }
 
@@ -69,5 +70,13 @@ public class LocalController extends CrudController<Local, LocalDTO, Long> {
 //    public void removerArquivos( @RequestPart("images") File images) {
 //        imageService.removerArquivos(images);
 //    }
+
+    @PutMapping("update-and-upload/{id}")
+    public Local update(@RequestPart("local") @Valid Local local,
+                      @RequestPart(value = "images", required = false) MultipartFile[] images) {
+        getService().save(local);
+        imageService.saveImages(images, local);
+        return local;
+    }
 
 }

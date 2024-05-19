@@ -10,13 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EntrustedDTO {
+public class AccessibilityDTO {
     private Long id;
 
-    @NotNull
-    private String name;
-
-    private String phoneNumber;
-
-    private String eMail;
+    private String type;
 }

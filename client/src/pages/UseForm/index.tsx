@@ -9,8 +9,8 @@ import {
     FormErrorMessage,
     FormLabel,
     Input,
-    Select,
     Textarea,
+    Select,
 } from "@chakra-ui/react";
 import useService from "../../services/UseService.ts";
 import {useGeographic} from "ol/proj";
@@ -19,6 +19,7 @@ import LocalService from "../../services/LocalService.ts";
 import ConvenienceService from "../../services/ConvenienceService.ts";
 import FunctionalityService from "../../services/FunctionalityService.ts";
 import citiesService from "../../services/CitiesService.ts";
+import MultiSelect, {Option} from "../../components/MultiSelect";
 
 //-----------------------------------------
 // const ITEM_HEIGHT = 48;
@@ -43,14 +44,11 @@ export function UseFormPage() {
     const [apiError, setApiError] = useState("");
     const navigate = useNavigate();
     const {id} = useParams();
-    //const cord = new Point([-52.67188958131138, -26.227052900970108]);
     const [entrusteds, setEntrusteds] = useState<IEntrusted[]>([]);
     const [conveniences, setConveniences] = useState<IConvenience[]>([]);
     const [locals, setLocals] = useState<ILocal[]>([]);
     const [functionalities, setFunctionalities] = useState<IFunctionality[]>([]);
     const [cities, setCities] = useState<ICities[]>([]);
-    useGeographic();
-
     const [entity, setEntity] = useState<IUse>({
         id: undefined,
         ageGroup: "",
@@ -94,6 +92,8 @@ export function UseFormPage() {
         termsOfUse: "",
         usageFee: 0
     });
+    //const [desc, setDesc] = useState<string[]>([]);
+    useGeographic();
 
     useEffect(() => {
         loadData();
@@ -247,13 +247,20 @@ export function UseFormPage() {
             });
     };
 
-    //-------------------------------
-    // const [desc, setDesc] = useState<string>([]);
-    //
-    // const handleChange() {
-    //     conveniences.forEach(value => setDesc(value.description));
-    // }
-    //-----------------------------
+    // const handleChange = (event: SelectChangeEvent<typeof desc>) => {
+    //     const {
+    //         target: { value },
+    //     } = event;
+    //     setDesc(
+    //         typeof value === 'string' ? value.split(',') : value,
+    //     );
+    // };
+
+    const [optionSelected, setSelected] = useState<Option[] | null>();
+    const handleChange = (selected: Option[]) => {
+        setSelected(selected);
+    };
+
     return (
         <>
             <div className="container">
@@ -307,7 +314,7 @@ export function UseFormPage() {
                             {...register("entrusted.id", {
                                 required: "O campo responsável é obrigatório",
                             })}
-                            size="sm"
+                            size="small"
                         >
                             {entrusteds.map((entrusted: IEntrusted) => (
                                 <option key={entrusted.id} value={entrusted.id}>
@@ -328,7 +335,7 @@ export function UseFormPage() {
                             {...register("convenience.id", {
                                 required: "O campo comodidades é obrigatório",
                             })}
-                            size="3"
+                            size="small"
                             multiple={true}
                         >
                             {conveniences.map((convenience: IConvenience) => (
@@ -342,25 +349,51 @@ export function UseFormPage() {
                         </FormErrorMessage>
                     </FormControl>
 
-                    {/*<div>*/}
-                    {/*    <FormControl sx={{m: 1, width: 300}}>*/}
-                    {/*        <Select*/}
-                    {/*            id="demo-multiple-checkbox"*/}
-                    {/*            multiple*/}
-                    {/*            onChange={handleChange}*/}
-                    {/*            value={desc}*/}
-                    {/*            renderValue={(selected) => selected.join(', ')}*/}
-                    {/*            MenuProps={MenuProps}*/}
-                    {/*        >*/}
-                    {/*            {conveniences.map((convenience: IConvenience)=> (*/}
-                    {/*                <MenuItem key={convenience.description} value={convenience.id}>*/}
-                    {/*                    <Checkbox checked={convenience?.id > -1}/>*/}
-                    {/*                    <ListItemText primary={convenience.description}/>*/}
-                    {/*                </MenuItem>*/}
-                    {/*            ))}*/}
-                    {/*        </Select>*/}
-                    {/*    </FormControl>*/}
-                    {/*</div>*/}
+                    <MultiSelect
+                        key="example_id"
+                        options={conveniences}
+                        onChange={handleChange}
+                        value={optionSelected}
+                        isSelectAll={true}
+                        menuPlacement={"bottom"}
+                    />
+                    {/*<FormControl sx={{m: 1, width: 300}}>*/}
+                    {/*    <Select*/}
+                    {/*        id="demo-multiple-checkbox"*/}
+                    {/*        multiple*/}
+                    {/*        onChange={handleChange}*/}
+                    {/*        value={desc}*/}
+                    {/*        renderValue={(selected) => selected.join(', ')}*/}
+                    {/*        MenuProps={MenuProps}*/}
+                    {/*    >*/}
+                    {/*        {conveniences.map((convenience: IConvenience)=> (*/}
+                    {/*            <MenuItem key={convenience.description} value={convenience.id}>*/}
+                    {/*                <Checkbox checked={convenience?.id > -1}/>*/}
+                    {/*                <ListItemText primary={convenience.description}/>*/}
+                    {/*            </MenuItem>*/}
+                    {/*        ))}*/}
+                    {/*    </Select>*/}
+                    {/*</FormControl>*/}
+
+                    {/*<FormControl sx={{ m: 1, width: 300 }}>*/}
+                    {/*    <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>*/}
+                    {/*    <Select*/}
+                    {/*        id="demo-multiple-checkbox"*/}
+                    {/*        multiple*/}
+                    {/*        value={desc}*/}
+                    {/*        onChange={handleChange}*/}
+                    {/*        input={<OutlinedInput label="Tag" />}*/}
+                    {/*        renderValue={(selected) => selected.join(', ')}*/}
+                    {/*        MenuProps={MenuProps}*/}
+                    {/*    >*/}
+                    {/*        {conveniences.map((convenience: IConvenience) => (*/}
+                    {/*            <MenuItem key={convenience.id} value={convenience.description}>*/}
+                    {/*                <Checkbox checked={convenience.id != undefined } />*/}
+                    {/*                <ListItemText primary={convenience.description} />*/}
+                    {/*            </MenuItem>*/}
+                    {/*        ))}*/}
+                    {/*    </Select>*/}
+                    {/*</FormControl>*/}
 
                     <FormControl isInvalid={errors.local && true}>
                         <FormLabel htmlFor="local">Local</FormLabel>
@@ -369,7 +402,7 @@ export function UseFormPage() {
                             {...register("local.id", {
                                 required: "O campo local é obrigatório",
                             })}
-                            size="sm"
+                            size="small"
                         >
                             {locals.map((local: ILocal) => (
                                 <option key={local.id} value={local.id}>
@@ -389,7 +422,7 @@ export function UseFormPage() {
                             {...register("functionality.id", {
                                 required: "O campo funcionalidades é obrigatório",
                             })}
-                            size="sm"
+                            size="small"
                         >
                             {functionalities.map((functionality: IFunctionality) => (
                                 <option key={functionality.id} value={functionality.id}>

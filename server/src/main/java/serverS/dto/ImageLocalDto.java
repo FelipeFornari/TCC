@@ -3,7 +3,6 @@ package serverS.dto;
 import lombok.Data;
 
 @Data
-public class ImageLocalDto {
+public class ImageLocalDTO {
     String[] images;
-
 }

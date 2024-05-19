@@ -13,8 +13,12 @@ const save = (formData: FormData) => {
     return api.post("/locals/save-and-upload", formData);
 };
 
-const update = (local: ILocal) => {
-    return api.post(`/locals/${local.id}`, local);
+// const update = (formData: FormData) => {
+//     return api.patch("/locals/update-and-upload", formData);
+// };
+
+const update = (locals: ILocal) => {
+    return api.post(`/locals/${locals.id}`, locals);
 }
 
 const findById = (id: number) => {
