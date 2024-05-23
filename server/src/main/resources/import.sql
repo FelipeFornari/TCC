@@ -2,7 +2,7 @@ INSERT INTO tb_user(display_name, username, password) VALUES ('Admin', 'admin', 
 INSERT INTO tb_user(display_name, username, password) VALUES ('Test', 'test', '$2a$10$.PVIfB07x.SfMYTcToxL0.yxcLWU0GbS2NUO1W1QAvqMm/TsFhVem');
 
 INSERT INTO tb_cities(city, uF) VALUES ('Pato Branco', 'PR');
-INSERT INTO tb_entrusteds(name, phoneNumber) VALUES ('Felipe', '9999999999');
+INSERT INTO tb_entrusteds(name) VALUES ('Felipe');
 INSERT INTO tb_entrusteds(name) VALUES ('Zé');
 INSERT INTO tb_convenience(description) VALUES ('Arquibancada');
 INSERT INTO tb_convenience(description) VALUES ('Banheiros');

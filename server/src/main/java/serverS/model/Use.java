@@ -1,5 +1,6 @@
 package serverS.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class Use {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="local_id")
     private Local local;
 
@@ -41,11 +43,13 @@ public class Use {
 
     private String ageGroup;
 
+    @Column
     @OneToMany(cascade = CascadeType.REMOVE,
             mappedBy = "uses",
             fetch= FetchType.LAZY)
     private List<Convenience> convenience;
 
+    @Column
     @OneToMany(cascade = CascadeType.REMOVE,
             mappedBy = "uses",
             fetch= FetchType.LAZY)
