@@ -18,7 +18,8 @@ export function EntrustedFormPage () {
     const [entity, setEntity] = useState<IEntrusted>({
         id: undefined,
         name: "",
-        phoneNumber: ""
+        phoneNumber: "",
+        email: ""
     });
 
     useEffect(() => {
@@ -37,7 +38,8 @@ export function EntrustedFormPage () {
                         setEntity({
                             id: response.data.id,
                             name: response.data.name,
-                            phoneNumber: response.data.phoneNumber
+                            phoneNumber: response.data.phoneNumber,
+                            email: response.data.email,
                         });
                         setApiError("");
                     } else {
@@ -100,6 +102,19 @@ export function EntrustedFormPage () {
                         />
                         <FormErrorMessage>
                             {errors?.phoneNumber && errors.phoneNumber.message}
+                        </FormErrorMessage>
+                    </FormControl>
+
+                    <FormControl isInvalid={errors?.email && true}>
+                        <FormLabel htmlFor="email">e-Mail</FormLabel>
+                        <Input
+                            id="email"
+                            placeholder="e-Mail"
+                            {...register("email", {
+                            })}
+                        />
+                        <FormErrorMessage>
+                            {errors?.email && errors.email.message}
                         </FormErrorMessage>
                     </FormControl>
 

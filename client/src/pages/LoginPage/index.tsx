@@ -50,7 +50,7 @@ export function LoginPage() {
           localStorage.setItem("user", JSON.stringify(response.data.user));
           setApiError("");
           setPendingApiCall(false);
-          navigate("/");
+          navigate("/cadastro");
         })
         .catch((responseError) => {
           if (responseError.response.data) {

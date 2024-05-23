@@ -98,7 +98,7 @@ export function UseListPage() {
                                     <Td>{map.id}</Td>
                                     <Td>{map.creationDate}</Td>
                                     <Td>{map.functionality.description}</Td>
-                                    <Td>{map.convenience.id}</Td>
+                                    <Td>{map.local.name}</Td>
                                     <Td>
                                         <Menu>
                                             <MenuButton

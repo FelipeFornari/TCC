@@ -6,7 +6,7 @@ import {MapFormPage} from "../../pages/LocalForm";
 import {FunctionalitiesFormPage} from "../../pages/FunctionalitiesForm";
 import {RegisterPage} from "../../pages/RegisterPage";
 import {FunctionalitiesListPage} from "../../pages/FunctionalitiesList";
-import {CitiesListPage} from "../../pages/CitiesList/indesx.tsx";
+import {CitiesListPage} from "../../pages/CitiesList";
 import {EntrustedFormPage} from "../../pages/EntrustedForm";
 import {EntrustedListPage} from "../../pages/EntrustedList";
 import {CityFormPage} from "../../pages/CitiesForm";
@@ -16,6 +16,8 @@ import {MapDisplayPage} from "../../pages/MapDisplay";
 import {UseFormPage} from "../../pages/UseForm";
 import {UseListPage} from "../../pages/UseList";
 import {ResultsPage} from "../../pages/ResultsPage";
+import {AccessibilitiesListPage} from "../../pages/AccessibilityList";
+import {AccessibilityFormPage} from "../../pages/AccessibilityForm";
 
 export function BaseRoutes() {
   return (
@@ -64,6 +66,11 @@ export function BaseRoutes() {
                 <Route path="/cadastro/atrativos/new" element={<UseFormPage />} />
                 <Route path="/cadastro/atrativos/:id" element={<UseFormPage />} />
                 <Route path="/cadastro/atrativos/list" element={<UseListPage />} />
+
+                <Route path="/cadastro/acessibilidades" element={<AccessibilityFormPage />} />
+                <Route path="/cadastro/acessibilidades/new" element={<AccessibilityFormPage />} />
+                <Route path="/cadastro/acessibilidades/:id" element={<AccessibilityFormPage />} />
+                <Route path="/cadastro/acessibilidades/list" element={<AccessibilitiesListPage />} />
 
             </Route>
         </Routes>

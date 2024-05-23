@@ -21,11 +21,12 @@ import {
     MenuList,
     MenuItem,
 } from "@chakra-ui/react";
-import {IFunctionality} from "../../commons/interfaces.ts";
-import FunctionalitiesService from "../../services/FunctionalityService.ts";
+import {IAccessibility} from "../../commons/interfaces.ts";
+import AccessibilitiesService from "../../services/AccessibilitiesService.ts";
+import accessibilitiesService from "../../services/AccessibilitiesService.ts";
 
-export function FunctionalitiesListPage() {
-    const [data, setData] = useState<IFunctionality[]>([]);
+export function AccessibilitiesListPage() {
+    const [data, setData] = useState<IAccessibility[]>([]);
     const [apiError, setApiError] = useState("");
     const [showDeleteMessage, setShowDeleteMessage] = useState(false);
     const navigate = useNavigate();
@@ -35,13 +36,13 @@ export function FunctionalitiesListPage() {
     }, []);
 
     const loadData = () => {
-        FunctionalitiesService.findAll()
+        AccessibilitiesService.findAll()
             .then((response) => {
                 setData(response.data);
                 setApiError("");
             })
             .catch(() => {
-                setApiError("Falha ao carregar a lista de funcionalidades");
+                setApiError("Falha ao carregar a lista de acessibilidade");
             });
     };
 
@@ -50,7 +51,7 @@ export function FunctionalitiesListPage() {
     };
 
     const onRemove = (id: number) => {
-        FunctionalitiesService.remove(id)
+        accessibilitiesService.remove(id)
             .then(() => {
                 setShowDeleteMessage(true);
                 loadData();
@@ -60,59 +61,59 @@ export function FunctionalitiesListPage() {
                 setApiError("");
             })
             .catch(() => {
-                setApiError("Falha ao remover a funcionalidade");
+                setApiError("Falha ao remover a acessibilidade");
             });
     };
 
     return (
         <>
             <div className="container">
-                <h1 className="fs-2 mb-4 text-center">Lista de Funcionalidades</h1>
+                <h1 className="fs-2 mb-4 text-center">Lista de Acessibilidades</h1>
                 <div className="text-center">
                     <Link
                         className="btn btn-success btn-icon mb-3"
-                        to="/cadastro/funcionalidades"
-                        title="Novo Local"
-                        style={{display: "inline-block"}}
+                        to="/cadastro/acessibilidades"
+                        title="Nova acessibilidade"
+                        style={{ display: "inline-block" }}
                     >
-                        <BsPlusCircle style={{display: "inline-block"}}/> Nova Funcionalidade
+                        <BsPlusCircle style={{ display: "inline-block" }} /> Nova Acessibilidade
                     </Link>
                 </div>
                 <TableContainer>
                     <Table>
-                        <TableCaption>Lista de funcionalidades cadastradas</TableCaption>
+                        <TableCaption>Lista de acessibilidades cadastradas</TableCaption>
                         <Thead>
                             <Tr>
                                 <Th>#</Th>
-                                <Th>Descrição</Th>
+                                <Th>Tipo</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {data.map((func: IFunctionality) => (
+                            {data.map((accessibility: IAccessibility) => (
                                 <Tr
-                                    key={func.id}
-                                    _hover={{cursor: "pointer", background: "#eee"}}
+                                    key={accessibility.id}
+                                    _hover={{ cursor: "pointer", background: "#eee" }}
                                 >
-                                    <Td>{func.id}</Td>
-                                    <Td>{func.description}</Td>
+                                    <Td>{accessibility.id}</Td>
+                                    <Td>{accessibility.type}</Td>
                                     <Td>
                                         <Menu>
                                             <MenuButton
                                                 as={IconButton}
                                                 aria-label="Actions"
-                                                icon={<BsThreeDotsVertical size={20}/>}
+                                                icon={<BsThreeDotsVertical size={20} />}
                                                 variant="ghost"
                                             />
                                             <MenuList>
                                                 <MenuItem
-                                                    icon={<BsPencilSquare/>}
-                                                    onClick={() => onEdit(`/cadastro/funcionalidades/${func.id}`)}
+                                                    icon={<BsPencilSquare />}
+                                                    onClick={() => onEdit(`/cadastro/acessibilidade/${accessibility.id}`)}
                                                 >
                                                     Editar
                                                 </MenuItem>
                                                 <MenuItem
-                                                    icon={<BsTrash/>}
-                                                    onClick={() => onRemove(func.id!)}
+                                                    icon={<BsTrash />}
+                                                    onClick={() => onRemove(accessibility.id!)}
                                                 >
                                                     Remover
                                                 </MenuItem>
@@ -125,7 +126,7 @@ export function FunctionalitiesListPage() {
                     </Table>
                 </TableContainer>
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
-                {showDeleteMessage && <div className="alert alert-success">Funcionalidade removida com sucesso!</div>}
+                {showDeleteMessage && <div className="alert alert-success">Cidade removida com sucesso!</div>}
             </div>
         </>
     );

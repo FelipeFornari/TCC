@@ -99,15 +99,6 @@ export function MapDisplayPage() {
                 setApiError("Falha ao carregar local");
             })
     }
-    // const onFind = (name: string) => {
-    //     localService.findAllByName(name)
-    //         .then(() => {
-    //             //recerrega pagina com resultados
-    //         })
-    //         .catch(() => {
-    //             //dialog local não encontrado
-    //         });
-    // };
 
     const handleClose = () => {
         setShow(false)
@@ -117,33 +108,35 @@ export function MapDisplayPage() {
 
     return (
         <>
-            <Navbar className="bg-body-tertiary justify-content-between">
-                {/*<form onSubmit={handleSubmit(onFind())}>*/}
-                <Row>
-                    <Col xs="auto">
-                        <Input
-                            id="searchName"
-                            name="searchName"
-                            type="search"
-                            className="search-input"
-                            placeholder="Nome do local"
-                            style={{width: 500}}
-                            onChange={(e) => setNomeLocal(e.target.value)}
-                        />
-                    </Col>
-                    <Col xs="auto">
-                        <Button
-                            leftIcon={<Search />}
-                            onClick={() =>searchLocal(nomeLocal)}>Buscar</Button>
-                    </Col>
-                    <Col xs="auto">
-                        <Button
-                            leftIcon={<Refresh />}
-                            onClick={() =>loadData()}>Recarregar</Button>
-                    </Col>
-                </Row>
-                {/*</form>*/}
-            </Navbar>
+            <Row>
+                <Navbar className="bg-body-tertiary justify-content-between">
+                    {/*<form onSubmit={handleSubmit(onFind())}>*/}
+                    <Row>
+                        <Col xs="auto">
+                            <Input
+                                id="searchName"
+                                name="searchName"
+                                type="search"
+                                className="search-input"
+                                placeholder="Nome do local"
+                                style={{width: 500}}
+                                onChange={(e) => setNomeLocal(e.target.value)}
+                            />
+                        </Col>
+                        <Col xs="auto">
+                            <Button
+                                leftIcon={<Search />}
+                                onClick={() =>searchLocal(nomeLocal)}>Buscar</Button>
+                        </Col>
+                        <Col xs="auto">
+                            <Button
+                                leftIcon={<Refresh />}
+                                onClick={() =>loadData()}>Recarregar</Button>
+                        </Col>
+                    </Row>
+                    {/*</form>*/}
+                </Navbar>
+            </Row>
             <Map
                 center={[cord.getCoordinates()[0], cord.getCoordinates()[1]]} zoom={13} view={view}
                 callBack={map => map.on('click', function (event) {
@@ -187,7 +180,8 @@ export function MapDisplayPage() {
                     </Modal.Footer>
                 </Modal>
             </Map>
-            <Accordion defaultActiveKey="0">
+
+            <Accordion >
                 {data.map((map: ILocal, i) => (
                     <Accordion.Item eventKey={i.toString()}>
                         <Accordion.Header>{map.name}</Accordion.Header>

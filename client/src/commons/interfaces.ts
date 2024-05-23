@@ -13,6 +13,11 @@ export interface ICities {
     uf: string,
 }
 
+export interface IAccessibility{
+    id?: number;
+    type: string;
+}
+
 export interface IConvenience {
     id?: number;
     description: string;
@@ -22,6 +27,7 @@ export interface IEntrusted {
     id?: number;
     name: string;
     phoneNumber: string;
+    email: string;
 }
 
 export interface IImage {
@@ -55,12 +61,13 @@ export interface IUse {
     local: ILocal;
     openingTime: string;
     closingTime: string;
-    scheduling: string;
+    scheduling: boolean;
     usageFee: number;
     petAllowed: boolean;
     entrusted: IEntrusted;
     ageGroup: string;
-    convenience: IConvenience;//criar array
+    convenience: Array<IConvenience>;
+    accessibility: Array<IAccessibility>;
     termsOfUse: string;
     creationDate: string;
     reformDate: string;

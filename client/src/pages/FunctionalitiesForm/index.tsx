@@ -1,7 +1,7 @@
 import {IFunctionality} from "../../commons/interfaces.ts";
 import {useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import FunctionalitiesService from "../../services/FunctionalityService.ts";
 import {Button, FormControl, FormErrorMessage, FormLabel, Textarea} from "@chakra-ui/react";
 
@@ -110,6 +110,9 @@ export function FunctionalitiesFormPage () {
                     </div>
                 </form>
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
+                <div className="text-center">
+                    <Link to="/cadastro/funcionalidades/list">Voltar</Link>
+                </div>
             </div>
         </>
     );

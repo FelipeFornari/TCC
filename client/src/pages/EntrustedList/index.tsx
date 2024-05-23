@@ -86,6 +86,7 @@ export function EntrustedListPage() {
                                 <Th>#</Th>
                                 <Th>Nome</Th>
                                 <Th>Fone</Th>
+                                <Th>e-Mail</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -97,6 +98,7 @@ export function EntrustedListPage() {
                                     <Td>{entrusted.id}</Td>
                                     <Td>{entrusted.name}</Td>
                                     <Td>{entrusted.phoneNumber}</Td>
+                                    <Td>{entrusted.email}</Td>
                                     <Td>
                                         <Menu>
                                             <MenuButton
