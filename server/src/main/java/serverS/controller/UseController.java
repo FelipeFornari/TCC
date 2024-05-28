@@ -47,4 +47,6 @@ public class UseController extends CrudController<Use, UseDTO, Long> {
     public ResponseEntity<List<Use>> findAllByLocalId(@RequestParam String id ){
         return ResponseEntity.ok(useService.findAllByLocalId(Long.parseLong(id)));
     }
+
+
 }

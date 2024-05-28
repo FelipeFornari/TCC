@@ -2,12 +2,12 @@ import {IAccessibility, ICities, IConvenience, ILocal, IUse} from "../../commons
 import {useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import citiesService from "../../services/CitiesService.ts";
+import CitiesService from "../../services/CitiesService.ts";
 import localService from "../../services/LocalService.ts";
 import Carousel from 'react-bootstrap/Carousel';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import useService from "../../services/UseService.ts";
+import UseService from "../../services/UseService.ts";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import {Image, TabContent} from "react-bootstrap";
@@ -37,7 +37,7 @@ export function ResultsPage () {
     });
 
     const loadData = async () => {
-        await citiesService.findAll()
+        await CitiesService.findAll()
             .then((response) => {
                 setCities(response.data);
                 setApiError("");
@@ -105,7 +105,7 @@ export function ResultsPage () {
     };
 
     const loadUse = (id: number) => {
-        useService.findAllByLocalId(id)
+        UseService.findAllByLocalId(id)
             .then((response) => {
                 setDataUse(response.data);
                 setApiError("");
@@ -133,10 +133,12 @@ export function ResultsPage () {
         else return "Gratuito";
     };
 
-    const ageGroup = (age: string) => {
-      if (age == null || age == "")
+    const ageGroup = (ageInf: string, ageSup: string) => {
+      if (ageInf == null || ageInf == "" )
           return "Livre";
-      else return age;
+      if (ageSup == null || ageSup == "" )
+          return "Livre";
+      else return ageInf + " a " + ageSup;
     };
 
     const maximumCapacity = (capacity: number) => {
@@ -171,8 +173,6 @@ export function ResultsPage () {
                                     fluid
                                 />
                                 <Carousel.Caption>
-                                    {/*<h3>First slide label</h3>*/}
-                                    {/*<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>*/}
                                 </Carousel.Caption>
                             </Carousel.Item>
                         ))}
@@ -213,9 +213,9 @@ export function ResultsPage () {
                                         </Col>
                                         <Col>
                                             <p>Acessibilidades: </p>
-                                            {/*{use.accessibility.map((acc: IAccessibility) => (*/}
-                                            {/*    <p>{acc.type}</p>*/}
-                                            {/*))}*/}
+                                            {use.accessibility.map((acc: IAccessibility) => (
+                                                <p>{acc.type}</p>
+                                            ))}
                                         </Col>
                                         <Col>
                                             <p>Comodidades: </p>
@@ -232,7 +232,7 @@ export function ResultsPage () {
                                             <p>Taxa de utilização: {usageFee(use.usageFee)}</p>
                                         </Col>
                                         <Col>
-                                            <p>Faixa etária: {ageGroup(use.ageGroup)}</p>
+                                            <p>Faixa etária: {ageGroup(use.ageGroupInf, use.ageGroupSup)}</p>
                                         </Col>
                                         <Col>
                                             <p>Capacidade máxima: {maximumCapacity(use.maximumCapacity)}</p>

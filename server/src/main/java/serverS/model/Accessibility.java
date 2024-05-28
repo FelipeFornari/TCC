@@ -20,8 +20,4 @@ public class Accessibility {
     @NotNull
     private String type;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="use_id")
-    private Use uses;
 }

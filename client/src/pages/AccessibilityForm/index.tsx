@@ -3,7 +3,7 @@ import {useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, FormControl, FormErrorMessage, FormLabel, Input} from "@chakra-ui/react";
-import accessibilitiesService from "../../services/AccessibilitiesService.ts";
+import AccessibilitiesService from "../../services/AccessibilitiesService.ts";
 
 export function AccessibilityFormPage () {
     const {
@@ -22,7 +22,7 @@ export function AccessibilityFormPage () {
 
     const loadData = async () => {
         if (id) {
-            accessibilitiesService.findById(parseInt(id))
+            AccessibilitiesService.findById(parseInt(id))
                 .then((response) => {
                     if (response.data) {
                         setEntity({
@@ -59,7 +59,7 @@ export function AccessibilityFormPage () {
             ...data,
             id: entity.id,
         };
-        accessibilitiesService.save(accessibility)
+        AccessibilitiesService.save(accessibility)
             .then(() => {
                 navigate("/cadastro/acessibilidades/list");
             })

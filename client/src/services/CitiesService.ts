@@ -22,7 +22,7 @@ const remove = (id: number) => {
 }
 
 
-const citiesService = {
+const CitiesService = {
     findAll,
     save,
     findById,
@@ -30,4 +30,4 @@ const citiesService = {
     update,
 }
 
-export default citiesService;
+export default CitiesService;

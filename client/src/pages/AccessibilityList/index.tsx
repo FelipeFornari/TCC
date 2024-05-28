@@ -23,7 +23,6 @@ import {
 } from "@chakra-ui/react";
 import {IAccessibility} from "../../commons/interfaces.ts";
 import AccessibilitiesService from "../../services/AccessibilitiesService.ts";
-import accessibilitiesService from "../../services/AccessibilitiesService.ts";
 
 export function AccessibilitiesListPage() {
     const [data, setData] = useState<IAccessibility[]>([]);
@@ -51,7 +50,7 @@ export function AccessibilitiesListPage() {
     };
 
     const onRemove = (id: number) => {
-        accessibilitiesService.remove(id)
+        AccessibilitiesService.remove(id)
             .then(() => {
                 setShowDeleteMessage(true);
                 loadData();

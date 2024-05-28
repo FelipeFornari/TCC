@@ -22,7 +22,7 @@ const remove = (id: number) => {
 }
 
 
-const accessibilitiesService = {
+const AccessibilitiesService = {
     findAll,
     save,
     findById,
@@ -30,4 +30,4 @@ const accessibilitiesService = {
     update,
 }
 
-export default accessibilitiesService;
+export default AccessibilitiesService;

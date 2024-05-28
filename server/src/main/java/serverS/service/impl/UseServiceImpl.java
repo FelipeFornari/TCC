@@ -2,6 +2,8 @@ package serverS.service.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import serverS.model.Accessibility;
+import serverS.model.Convenience;
 import serverS.model.Local;
 import serverS.model.Use;
 import serverS.repository.UseRepository;
@@ -36,5 +38,18 @@ public class UseServiceImpl extends CrudServiceImpl<Use, Long>
     @Override
     public List<Use> findAllByLocalId(Long id) {
         return useRepository.findAllByLocalId(id);
+    }
+
+    @Override
+    public Use save(Use entity) {
+
+//        for(Convenience c : entity.getConvenience()) {
+//            c.setDescription("");
+//        }
+//
+//        for (Accessibility a: entity.getAccessibility()){
+//            a.setType("");
+//        }
+        return super.save(entity);
     }
 }

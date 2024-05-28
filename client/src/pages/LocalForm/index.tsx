@@ -19,7 +19,7 @@ import {useForm} from "react-hook-form";
 import {ILocal, ICities} from "../../commons/interfaces.ts";
 import localService from "../../services/LocalService.ts";
 import {Point} from "ol/geom";
-import citiesService from "../../services/CitiesService.ts";
+import CitiesService from "../../services/CitiesService.ts";
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -64,7 +64,7 @@ export function MapFormPage() {
     });
 
     const loadData = async () => {
-        await citiesService.findAll()
+        await CitiesService.findAll()
             .then((response) => {
                 setCities(response.data);
                 setApiError("");

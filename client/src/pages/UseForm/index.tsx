@@ -20,16 +20,16 @@ import {
     Select,
     Textarea,
 } from "@chakra-ui/react";
-import useService from "../../services/UseService.ts";
+import UseService from "../../services/UseService.ts";
 import {useGeographic} from "ol/proj";
 import EntrustedService from "../../services/EntrustedService.ts";
 import LocalService from "../../services/LocalService.ts";
 import ConvenienceService from "../../services/ConvenienceService.ts";
 import FunctionalityService from "../../services/FunctionalityService.ts";
-import citiesService from "../../services/CitiesService.ts";
+import CitiesService from "../../services/CitiesService.ts";
+import AccessibilitiesService from "../../services/AccessibilitiesService.ts";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import accessibilitiesService from "../../services/AccessibilitiesService.ts";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {Multiselect} from "multiselect-react-dropdown";
@@ -52,18 +52,19 @@ export function UseFormPage() {
     const [cities, setCities] = useState<ICities[]>([]);
     const [selectedConveniences, setSelectedConveniences] = useState<IConvenience[]>([]);
     const [selectedAccessibilities, setSelectedAccessibilities] = useState<IAccessibility[]>([]);
-    const [dpCreationDate, setdpCreationDate] = useState(new Date());
     const [cDate, setcDate] = useState("");
     const [rDate, setrDate] = useState("");
+    const [dpCreationDate, setdpCreationDate] = useState(new Date());
     const [dpReformDate, setdpReformDate] = useState(new Date());
     const [dpOppeningTime, setdpOppeningTime] = useState(new Date());
     const [dpClosingTime, setdpClosingTime] = useState(new Date());
     const [entity, setEntity] = useState<IUse>({
         id: undefined,
-        ageGroup: "",
+        ageGroupInf: "",
+        ageGroupSup: "",
         closingTime: "",
-        convenience: conveniences,
-        accessibility: accessibilities,
+        convenience: selectedConveniences,
+        accessibility: selectedAccessibilities,
         creationDate: "",
         entrusted: {
             id: undefined,
@@ -119,7 +120,7 @@ export function UseFormPage() {
                 setApiError("Falha ao carregar a combo de responsáveis.");
             });
 
-        await citiesService.findAll()
+        await CitiesService.findAll()
             .then((response) => {
                 setCities(response.data);
                 setApiError("");
@@ -155,7 +156,7 @@ export function UseFormPage() {
                 setApiError("Falha ao carregar a combo de funcionalidades.");
             });
 
-        await accessibilitiesService.findAll()
+        await AccessibilitiesService.findAll()
             .then((response) => {
                 setAccessibilities(response.data);
                 setApiError("");
@@ -165,12 +166,13 @@ export function UseFormPage() {
             });
 
         if (id) {
-            useService.findById(parseInt(id))
+            UseService.findById(parseInt(id))
                 .then((response) => {
                     if (response.data) {
                         setEntity({
                             id: response.data.id,
-                            ageGroup: response.data.ageGroup,
+                            ageGroupInf: response.data.ageGroupInf,
+                            ageGroupSup: response.data.ageGroupSup,
                             closingTime: response.data.closingTime,
                             convenience: response.data.convenience,
                             accessibility: response.data.accessibility,
@@ -259,7 +261,7 @@ export function UseFormPage() {
 
         };
 
-        useService.save(use)
+        UseService.save(use)
             .then(() => {
                 navigate("/cadastro/atrativos/list");
             })
@@ -268,28 +270,26 @@ export function UseFormPage() {
             });
     };
 
+    // @ts-expect-error Parameter 'date' implicitly has an 'any' type.
     const handlecDateSelect = (date) => {
         setcDate(date.toLocaleDateString());
     };
 
+    // @ts-expect-error Parameter 'date' implicitly has an 'any' type.
     const handlerDateSelect = (date) => {
         setrDate(date.toLocaleDateString());
     };
 
+    // @ts-expect-error Parameter 'acc' implicitly has an 'any' type.
     const handleAccessibilitiesSelecteds = (acc) => {
-
-        console.log(acc);
         setSelectedAccessibilities(acc);
-        console.log(selectedAccessibilities);
     };
 
+    // @ts-expect-error Parameter 'con' implicitly has an 'any' type.
     const handleConveniencesSelecteds = (con) => {
-
-        console.log(con);
         setSelectedConveniences(con);
-        console.log(selectedConveniences);
     };
-
+    
     return (
         <>
             <div className="container">
@@ -318,28 +318,6 @@ export function UseFormPage() {
                             </FormControl>
                         </Col>
                         <Col>
-                            <FormControl isInvalid={errors.entrusted && true}>
-                                <FormLabel htmlFor="entrusted">Responsável</FormLabel>
-                                <Select
-                                    id="entrusted"
-                                    {...register("entrusted.id", {
-                                        required: "O campo responsável é obrigatório",
-                                    })}
-                                    size="sm"
-                                >
-                                    {entrusteds.map((entrusted: IEntrusted) => (
-                                        <option key={entrusted.id} value={entrusted.id}>
-                                            {entrusted.name}
-                                        </option>
-                                    ))}
-                                </Select>
-
-                                <FormErrorMessage>
-                                    {errors.entrusted && errors.entrusted.message}
-                                </FormErrorMessage>
-                            </FormControl>
-                        </Col>
-                        <Col>
                             <FormControl isInvalid={errors.functionality && true}>
                                 <FormLabel htmlFor="local">Funcionalidades</FormLabel>
                                 <Select
@@ -360,7 +338,33 @@ export function UseFormPage() {
                                 </FormErrorMessage>
                             </FormControl>
                         </Col>
-                        <Col></Col>
+                        <Col>
+                            <FormControl isInvalid={errors.ageGroupInf && true}>
+                                <FormLabel htmlFor="ageGroupInf">Faixa etária inicial</FormLabel>
+                                <Input
+                                    id="ageGroupInf"
+                                    placeholder="00"
+                                    type="number"
+                                    {...register("ageGroupInf", {})}
+                                />
+                                <FormErrorMessage>
+                                    {errors.ageGroupInf && errors.ageGroupInf.message}
+                                </FormErrorMessage>
+                            </FormControl>
+                        </Col>
+                        <Col>
+                            <FormControl isInvalid={errors.ageGroupSup && true}>
+                                <FormLabel htmlFor="ageGroupSup">Faixa etária final</FormLabel>
+                                <Input
+                                    id="ageGroupSup"
+                                    placeholder="00"
+                                    {...register("ageGroupSup", {})}
+                                />
+                                <FormErrorMessage>
+                                    {errors.ageGroupSup && errors.ageGroupSup.message}
+                                </FormErrorMessage>
+                            </FormControl>
+                        </Col>
                     </Row>
                     <Row>
                         <Col>
@@ -384,6 +388,7 @@ export function UseFormPage() {
                                     dateFormat="hh:mm aa"
                                     isClearable
                                     placeholderText="Selecione o horário"
+
                                 />
                                 <FormErrorMessage>
                                     {errors.openingTime && errors.openingTime.message}
@@ -476,15 +481,24 @@ export function UseFormPage() {
                             </FormControl>
                         </Col>
                         <Col>
-                            <FormControl isInvalid={errors.ageGroup && true}>
-                                <FormLabel htmlFor="ageGroup">Faixa etária</FormLabel>
-                                {/*<Input*/}
-                                {/*    id="ageGroup"*/}
-                                {/*    placeholder="00"*/}
-                                {/*    {...register("ageGroup", {})}*/}
-                                {/*/>*/}
+                            <FormControl isInvalid={errors.entrusted && true}>
+                                <FormLabel htmlFor="entrusted">Responsável</FormLabel>
+                                <Select
+                                    id="entrusted"
+                                    {...register("entrusted.id", {
+                                        required: "O campo responsável é obrigatório",
+                                    })}
+                                    size="sm"
+                                >
+                                    {entrusteds.map((entrusted: IEntrusted) => (
+                                        <option key={entrusted.id} value={entrusted.id}>
+                                            {entrusted.name}
+                                        </option>
+                                    ))}
+                                </Select>
+
                                 <FormErrorMessage>
-                                    {errors.ageGroup && errors.ageGroup.message}
+                                    {errors.entrusted && errors.entrusted.message}
                                 </FormErrorMessage>
                             </FormControl>
                         </Col>

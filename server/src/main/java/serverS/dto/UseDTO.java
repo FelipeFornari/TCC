@@ -42,10 +42,14 @@ public class UseDTO {
     @ManyToOne
     private EntrustedDTO entrusted;
 
-    private String ageGroup;
+    private String ageGroupInf;
+
+    private String ageGroupSup;
 
 //    @OneToMany
     private List<ConvenienceDTO> convenience;
+
+    private List<AccessibilityDTO> accessibility;
 
     @NotNull
     private String termsOfUse;

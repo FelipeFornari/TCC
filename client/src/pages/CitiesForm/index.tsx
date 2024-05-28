@@ -3,7 +3,7 @@ import {useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, FormControl, FormErrorMessage, FormLabel, Input} from "@chakra-ui/react";
-import citiesService from "../../services/CitiesService.ts";
+import CitiesService from "../../services/CitiesService.ts";
 
 export function CityFormPage () {
     const {
@@ -23,7 +23,7 @@ export function CityFormPage () {
 
     const loadData = async () => {
         if (id) {
-            citiesService.findById(parseInt(id))
+            CitiesService.findById(parseInt(id))
                 .then((response) => {
                     if (response.data) {
                         setEntity({
@@ -61,7 +61,7 @@ export function CityFormPage () {
             ...data,
             id: entity.id,
         };
-        citiesService.save(city)
+        CitiesService.save(city)
             .then(() => {
                 navigate("/cadastro/cidades/list");
             })

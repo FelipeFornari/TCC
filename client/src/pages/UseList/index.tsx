@@ -22,7 +22,7 @@ import {
     MenuItem,
 } from "@chakra-ui/react";
 import {IUse} from "../../commons/interfaces.ts";
-import useService from "../../services/UseService.ts";
+import UseService from "../../services/UseService.ts";
 
 export function UseListPage() {
     const [data, setData] = useState<IUse[]>([]);
@@ -35,7 +35,7 @@ export function UseListPage() {
     }, []);
 
     const loadData = () => {
-        useService.findAll()
+        UseService.findAll()
             .then((response) => {
                 setData(response.data);
                 setApiError("");
@@ -50,7 +50,7 @@ export function UseListPage() {
     };
 
     const onRemove = (id: number) => {
-        useService.remove(id)
+        UseService.remove(id)
             .then(() => {
                 setShowDeleteMessage(true);
                 loadData();

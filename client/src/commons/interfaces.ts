@@ -65,7 +65,8 @@ export interface IUse {
     usageFee: number;
     petAllowed: boolean;
     entrusted: IEntrusted;
-    ageGroup: string;
+    ageGroupInf: string;
+    ageGroupSup: string;
     convenience: Array<IConvenience>;
     accessibility: Array<IAccessibility>;
     termsOfUse: string;

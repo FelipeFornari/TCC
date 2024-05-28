@@ -21,8 +21,4 @@ public class Convenience {
     @NotNull
     private String description;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="use_id")
-    private Use uses;
 }

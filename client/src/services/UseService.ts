@@ -29,7 +29,7 @@ const findAllByLocalId = (id: number) => {
     return api.get(`/use/search/localId?id=${id}`);
 }
 
-const useService = {
+const UseService = {
     findAll,
     save,
     findById,
@@ -39,4 +39,4 @@ const useService = {
     findAllByLocalId,
 }
 
-export default useService;
+export default UseService;

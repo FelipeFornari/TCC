@@ -41,19 +41,21 @@ public class Use {
     @ManyToOne
     private Entrusted entrusted;
 
-    private String ageGroup;
+    private String ageGroupInf;
 
-    @Column
-    @OneToMany(cascade = CascadeType.REMOVE,
-            mappedBy = "uses",
-            fetch= FetchType.LAZY)
+    private String ageGroupSup;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "tb_use_convenience",
+            joinColumns = @JoinColumn(name = "use_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "conveninence_id", referencedColumnName = "id") )
     private List<Convenience> convenience;
 
-    @Column
-    @OneToMany(cascade = CascadeType.REMOVE,
-            mappedBy = "uses",
-            fetch= FetchType.LAZY)
-    private List<Accessibility> accessibilities;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "tb_use_accessibility",
+            joinColumns = @JoinColumn(name = "use_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "accessibility_id", referencedColumnName = "id") )
+    private List<Accessibility> accessibility;
 
     @NotNull
     private String termsOfUse;
