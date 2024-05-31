@@ -63,6 +63,23 @@ export function MapFormPage() {
         street: "",
     });
 
+    const view = useMemo(
+        () =>
+            new View({
+                center: [cord.getCoordinates()[0], cord.getCoordinates()[1]],
+                zoom,
+            }),
+        [cord, zoom]
+    );
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    useEffect(() => {
+        reset(entity);
+    }, [entity, reset]);
+
     const loadData = async () => {
         await CitiesService.findAll()
             .then((response) => {
@@ -119,34 +136,19 @@ export function MapFormPage() {
         }
     };
 
-    const view = useMemo(
-        () =>
-            new View({
-                center: [cord.getCoordinates()[0], cord.getCoordinates()[1]],
-                zoom,
-            }),
-        [cord, zoom]
-    );
-
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    useEffect(() => {
-        reset(entity);
-    }, [entity, reset]);
-
     const onFileChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const imagesArray = []
             for (let i = 0; i < event.target.files.length; i++) {
                 imagesArray.push(event.target.files[i])
             }
-            // @ts-ignore
+
+            // @ts-expect-error <html>TS2345: Argument of type 'File[]' is not assignable to parameter of type 'SetStateAction&lt;never[]&gt;'.<br/>Type 'File[]' is not assignable to type 'never[]'.<br/>Type 'File' is not assignable to type 'never'.
             setImages(imagesArray);
         }
 
-        // @ts-ignore
+
+        // @ts-expect-error <html>TS2345: Argument of type 'File | null' is not assignable to parameter of type 'SetStateAction&lt;undefined&gt;'.<br/>Type 'null' is not assignable to type 'SetStateAction&lt;undefined&gt;'.
         setImage(event.target.files ? event.target.files[0] : null);
         // setImages(event.target.files ? event.target.files[0] : null);
     };

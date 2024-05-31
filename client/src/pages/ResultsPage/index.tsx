@@ -36,6 +36,13 @@ export function ResultsPage () {
         street: "",
     });
 
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    useEffect(() => {
+        reset(entity);
+    }, [entity, reset]);
     const loadData = async () => {
         await CitiesService.findAll()
             .then((response) => {
@@ -84,14 +91,6 @@ export function ResultsPage () {
             });
         }
     };
-
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    useEffect(() => {
-        reset(entity);
-    }, [entity, reset]);
 
     const loadImg = (id: number) => {
         localService.findAllImages(id)
@@ -187,7 +186,8 @@ export function ResultsPage () {
                         fill
                     >
                         {dataUse.map((use: IUse) => (
-                            <Tab eventKey={use.functionality.id}
+                            <Tab
+                                eventKey={use.functionality.id}
                                  title={use.functionality.description}
 
                             >

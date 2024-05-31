@@ -31,27 +31,13 @@ export function MapDisplayPage() {
     const accuracyFeature = useMemo(() => new Feature(), []);
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
-
-    useGeographic();
-
     mPoint.setCoordinates(num);
     accuracyFeature.setGeometry(mPoint);
+    useGeographic();
 
     useEffect(() => {
         loadData();
     }, []);
-
-    const loadData = () => {
-        localService.findAll()
-            .then((response) => {
-                setData(response.data);
-                mPoint.setCoordinates(response.data.coordinate);
-                setApiError("");
-            })
-            .catch(() => {
-                setApiError("Falha ao carregar a lista de locais");
-            });
-    };
 
     const view = useMemo(
         () =>
@@ -72,6 +58,18 @@ export function MapDisplayPage() {
             }),
         })
     );
+
+    const loadData = () => {
+        localService.findAll()
+            .then((response) => {
+                setData(response.data);
+                mPoint.setCoordinates(response.data.coordinate);
+                setApiError("");
+            })
+            .catch(() => {
+                setApiError("Falha ao carregar a lista de locais");
+            });
+    };
 
     const loadLocal = (cord: number[]) => {
         localService.findAllByCoordinate(cord)

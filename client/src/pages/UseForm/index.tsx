@@ -56,7 +56,7 @@ export function UseFormPage() {
     const [rDate, setrDate] = useState("");
     const [dpCreationDate, setdpCreationDate] = useState(new Date());
     const [dpReformDate, setdpReformDate] = useState(new Date());
-    const [dpOppeningTime, setdpOppeningTime] = useState(new Date());
+    const [dpOppeningTime, setdpOppeningTime] = useState( new Date());
     const [dpClosingTime, setdpClosingTime] = useState(new Date());
     const [entity, setEntity] = useState<IUse>({
         id: undefined,
@@ -289,7 +289,7 @@ export function UseFormPage() {
     const handleConveniencesSelecteds = (con) => {
         setSelectedConveniences(con);
     };
-    
+
     return (
         <>
             <div className="container">

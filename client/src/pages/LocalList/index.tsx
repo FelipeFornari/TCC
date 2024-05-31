@@ -30,8 +30,6 @@ export function MapListPage() {
     const [showDeleteMessage, setShowDeleteMessage] = useState(false);
     const navigate = useNavigate();
 
-    //const [dataImages, setDataImages] = useState([]);
-
     useEffect(() => {
         loadData();
     }, []);
@@ -139,16 +137,6 @@ export function MapListPage() {
                         </Tbody>
                     </Table>
                 </TableContainer>
-                {/*IMAGENS::*/}
-                {/*{dataImages.map((image: any) => (*/}
-                {/*    <>*/}
-                {/*        <img*/}
-                {/*            style={{width: "100px", height: "100px"}}*/}
-                {/*            src={`data:image;base64,${image.image}`}*/}
-                {/*        />*/}
-                {/*        <span>${image.imageName}</span>*/}
-                {/*    </>*/}
-                {/*))}*/}
                 {apiError && <div className="alert alert-danger">{apiError}</div>}
                 {showDeleteMessage && <div className="alert alert-success">Local removido com sucesso!</div>}
             </div>
